@@ -1,0 +1,11 @@
+[
+    { "date": -3000000, "name": "Humans Start", "description": "Approximate time when the genus Homo first appeared.", "type": "event" },
+    { "date": -10000, "name": "Agriculture", "description": "Development of agriculture and the beginning of settled human communities.", "type": "invention" },
+    { "date": 1440, "name": "Printing Press", "description": "Johannes Gutenberg invents the movable-type printing press.", "type": "invention" },
+    { "date": 1769, "name": "Steam Engine", "description": "James Watt patents the steam engine, kickstarting the Industrial Revolution.", "type": "invention" },
+    { "date": 1876, "name": "Telephone", "description": "Alexander Graham Bell patents the telephone.", "type": "invention" },
+    { "date": 1903, "name": "First Flight", "description": "Wright brothers achieve the first sustained, controlled, powered flight.", "type": "event" },
+    { "date": 1969, "name": "Moon Landing", "description": "Neil Armstrong becomes the first human to step on the Moon.", "type": "event" },
+    { "date": 1989, "name": "World Wide Web", "description": "Tim Berners-Lee invents the World Wide Web.", "type": "invention" },
+    { "date": 2024, "name": "Present Day", "description": "Current year as of this timeline's creation.", "type": "event" }
+]

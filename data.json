@@ -1,11 +1,12 @@
 [
-    { "date": -3000000, "name": "Humans Start", "description": "Approximate time when the genus Homo first appeared.", "type": "event" },
-    { "date": -10000, "name": "Agriculture", "description": "Development of agriculture and the beginning of settled human communities.", "type": "invention" },
-    { "date": 1440, "name": "Printing Press", "description": "Johannes Gutenberg invents the movable-type printing press.", "type": "invention" },
-    { "date": 1769, "name": "Steam Engine", "description": "James Watt patents the steam engine, kickstarting the Industrial Revolution.", "type": "invention" },
-    { "date": 1876, "name": "Telephone", "description": "Alexander Graham Bell patents the telephone.", "type": "invention" },
-    { "date": 1903, "name": "First Flight", "description": "Wright brothers achieve the first sustained, controlled, powered flight.", "type": "event" },
-    { "date": 1969, "name": "Moon Landing", "description": "Neil Armstrong becomes the first human to step on the Moon.", "type": "event" },
-    { "date": 1989, "name": "World Wide Web", "description": "Tim Berners-Lee invents the World Wide Web.", "type": "invention" },
-    { "date": 2024, "name": "Present Day", "description": "Current year as of this timeline's creation.", "type": "event" }
+    { "date": { "year": -3000000, "month": 1, "day": 1 }, "name": "Humans Start", "description": "Approximate time when the genus Homo first appeared.", "type": "event" },
+    { "date": { "year": -10000, "month": 1, "day": 1 }, "name": "Agriculture", "description": "Development of agriculture and the beginning of settled human communities.", "type": "technology" },
+    { "date": { "year": 1440, "month": 1, "day": 1 }, "name": "Printing Press", "description": "Johannes Gutenberg invents the movable-type printing press.", "type": "technology" },
+    { "date": { "year": 1769, "month": 1, "day": 1 }, "name": "Steam Engine", "description": "James Watt patents the steam engine, kickstarting the Industrial Revolution.", "type": "technology" },
+    { "date": { "year": 1876, "month": 3, "day": 7 }, "name": "Telephone", "description": "Alexander Graham Bell patents the telephone.", "type": "technology" },
+    { "date": { "year": 1903, "month": 12, "day": 17 }, "name": "First Flight", "description": "Wright brothers achieve the first sustained, controlled, powered flight.", "type": "event" },
+    { "date": { "year": 1928, "month": 9, "day": 28 }, "name": "Discovery of Penicillin", "description": "Alexander Fleming discovers penicillin.", "type": "medicine" },
+    { "date": { "year": 1969, "month": 7, "day": 20 }, "name": "Moon Landing", "description": "Neil Armstrong becomes the first human to step on the Moon.", "type": "event" },
+    { "date": { "year": 1989, "month": 3, "day": 12 }, "name": "World Wide Web", "description": "Tim Berners-Lee invents the World Wide Web.", "type": "technology" },
+    { "date": { "year": 2024, "month": 1, "day": 1 }, "name": "Present Day", "description": "Current date as of this timeline's creation.", "type": "event" }
 ]

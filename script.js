@@ -1,11 +1,14 @@
-/* script.js */
-
 d3.json('data.json').then(function(events) {
-    const colorScale = d3.scaleOrdinal()
-        .domain(["event", "invention"])
-        .range(["#ff7f0e", "#1f77b4"]);
+    // Convert date objects to numeric values
+    events.forEach(d => {
+        d.dateValue = dateToNumber(d.date);
+    });
 
-    const margin = {top: 50, right: 50, bottom: 50, left: 50};
+    const colorScale = d3.scaleOrdinal()
+        .domain(["event", "technology", "medicine"])
+        .range(["#ff7f0e", "#1f77b4", "#2ca02c"]);
+
+    const margin = {top: 50, right: 50, bottom: 50, left: 100};
     const width = 1000 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
@@ -16,23 +19,39 @@ d3.json('data.json').then(function(events) {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
+    // Define x scale as linear scale based on dateValue
     const x = d3.scaleLinear()
-        .domain([d3.min(events, d => d.date), d3.max(events, d => d.date)])
+        .domain(d3.extent(events, d => d.dateValue))
         .range([0, width]);
 
-    const dayStart = new Date(2024, 0, 1, 0, 0);
-    const dayEnd = new Date(2024, 0, 1, 23, 59);
-    const totalMinutes = (dayEnd - dayStart) / (1000 * 60);
+    const minDateValue = x.domain()[0];
+    const maxDateValue = x.domain()[1];
 
-    const xDay = d3.scaleTime()
-        .domain([dayStart, dayEnd])
-        .range([0, width]);
+    // Adjust day scale to include padding
+    const dayStart = 0; // Start of day in minutes
+    const dayEnd = 24 * 60; // End of day in minutes
+    const totalMinutes = dayEnd - dayStart;
+
+    // Map dateValues to minutes in the day
+    const xDay = d3.scaleLinear()
+        .domain([minDateValue, maxDateValue])
+        .range([dayStart, dayEnd]);
 
     const xAxis = d3.axisBottom(x)
-        .tickFormat(d => d < 0 ? Math.abs(d) + " BCE" : d + " CE");
+        .tickFormat(d => {
+            const date = numberToDate(d);
+            const year = date.year;
+            if (year < 0) return `${Math.abs(year)} BCE`;
+            else return `${year} CE`;
+        });
 
-    const xAxisDay = d3.axisTop(xDay)
-        .tickFormat(d3.timeFormat("%H:%M"));
+    const xAxisDay = d3.axisTop(x)
+        .tickFormat(d => {
+            const minutesInDay = xDay(d);
+            const hours = Math.floor(minutesInDay / 60);
+            const minutes = Math.floor(minutesInDay % 60);
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+        });
 
     svg.append("g")
         .attr("class", "x-axis")
@@ -42,6 +61,23 @@ d3.json('data.json').then(function(events) {
     svg.append("g")
         .attr("class", "x-axis-day")
         .call(xAxisDay);
+
+    // Define y positions for each category
+    const categories = ["event", "technology", "medicine"];
+    const categoryScale = d3.scalePoint()
+        .domain(categories)
+        .range([50, height - 50]);
+
+    // Add category labels
+    svg.selectAll(".category-label")
+        .data(categories)
+        .enter()
+        .append("text")
+        .attr("class", "category-label")
+        .attr("x", -margin.left + 10)
+        .attr("y", d => categoryScale(d))
+        .attr("dy", "0.35em")
+        .text(d => d.charAt(0).toUpperCase() + d.slice(1));
 
     // Add clipping path
     svg.append("clipPath")
@@ -55,22 +91,38 @@ d3.json('data.json').then(function(events) {
         .attr("clip-path", "url(#chart-area)");
 
     let currentZoom = d3.zoomIdentity;
+
     const zoom = d3.zoom()
         .scaleExtent([1, 1000])
+        .translateExtent([[0, 0], [width, height]])
+        .extent([[0, 0], [width, height]])
         .on("zoom", zoomed);
 
     svg.call(zoom);
 
     function zoomed(event) {
         currentZoom = event.transform;
-        const newX = currentZoom.rescaleX(x);
-        const newXDay = currentZoom.rescaleX(xDay);
+        let newX = event.transform.rescaleX(x);
+
+        // Constrain the domain
+        let newDomain = newX.domain();
+        if (newDomain[0] < minDateValue) {
+            const shift = minDateValue - newDomain[0];
+            newDomain[0] = minDateValue;
+            newDomain[1] += shift;
+        }
+        if (newDomain[1] > maxDateValue) {
+            const shift = newDomain[1] - maxDateValue;
+            newDomain[1] = maxDateValue;
+            newDomain[0] -= shift;
+        }
+        newX.domain(newDomain);
 
         chartArea.selectAll(".event")
-            .attr("cx", d => newX(d.date));
+            .attr("cx", d => newX(d.dateValue));
 
         svg.select(".x-axis").call(xAxis.scale(newX));
-        svg.select(".x-axis-day").call(xAxisDay.scale(newXDay));
+        svg.select(".x-axis-day").call(xAxisDay.scale(newX));
 
         updateZoomLevel();
     }
@@ -80,8 +132,13 @@ d3.json('data.json').then(function(events) {
             .data(events)
             .join("circle")
             .attr("class", "event")
-            .attr("cx", d => x(d.date))
-            .attr("cy", height / 2)
+            .attr("cx", d => x(d.dateValue))
+            .attr("cy", d => {
+                const baseY = categoryScale(d.type);
+                // Offset based on month to reduce overlap
+                const monthOffset = ((d.date.month - 6.5) / 12) * 50; // Adjust as needed
+                return baseY + monthOffset;
+            })
             .attr("r", 5)
             .attr("fill", d => colorScale(d.type))
             .on("mouseover", showInfo)
@@ -93,22 +150,26 @@ d3.json('data.json').then(function(events) {
         .style("opacity", 0);
 
     function showInfo(event, d) {
-        const timeSinceStart = d.date - d3.min(events, e => e.date);
-        const totalTimeSpan = d3.max(events, e => e.date) - d3.min(events, e => e.date);
+        const timeSinceStart = d.dateValue - minDateValue;
+        const totalTimeSpan = maxDateValue - minDateValue;
         const minutesInDay = (timeSinceStart / totalTimeSpan) * totalMinutes;
-        const timeInDay = new Date(dayStart.getTime() + minutesInDay * 60000);
+        const hours = Math.floor(minutesInDay / 60);
+        const minutes = Math.floor(minutesInDay % 60);
+        const timeInDay = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+        const dateStr = formatDate(d.date);
 
         tooltip.transition()
             .duration(200)
             .style("opacity", .9);
         tooltip.html(`
             <h3>${d.name}</h3>
-            <p>Date: ${d.date < 0 ? Math.abs(d.date) + " BCE" : d.date + " CE"}</p>
-            <p>Time in Day: ${d3.timeFormat("%H:%M")(timeInDay)}</p>
+            <p>Date: ${dateStr}</p>
+            <p>Time in Day: ${timeInDay}</p>
             <p>${d.description}</p>
         `)
-            .style("left", (event.pageX) + "px")
-            .style("top", (event.pageY - 28 - 100) + "px");
+            .style("left", (event.pageX + 15) + "px")
+            .style("top", (event.pageY - 28) + "px");
     }
 
     function hideInfo() {
@@ -157,3 +218,62 @@ d3.json('data.json').then(function(events) {
 
     updateEvents();
 });
+
+function dateToNumber(date) {
+    let y = date.year;
+    let m = date.month;
+    let d = date.day;
+
+    // Adjust months and years for negative years
+    if (m <= 2) {
+        y -= 1;
+        m += 12;
+    }
+
+    // Julian Day Number calculation
+    const A = Math.floor(y / 100);
+    const B = y < 0 ? 0 : 2 - A + Math.floor(A / 4); // Adjust for Gregorian calendar start
+
+    const jd = Math.floor(365.25 * (y + 4716)) +
+               Math.floor(30.6001 * (m + 1)) +
+               d + B - 1524.5;
+
+    return jd;
+}
+
+function numberToDate(jd) {
+    let J = jd + 0.5;
+    let Z = Math.floor(J);
+    let F = J - Z;
+    let A;
+
+    if (Z < 2299161) {
+        A = Z;
+    } else {
+        let alpha = Math.floor((Z - 1867216.25) / 36524.25);
+        A = Z + 1 + alpha - Math.floor(alpha / 4);
+    }
+
+    let B = A + 1524;
+    let C = Math.floor((B - 122.1) / 365.25);
+    let D = Math.floor(365.25 * C);
+    let E = Math.floor((B - D) / 30.6001);
+
+    let day = B - D - Math.floor(30.6001 * E) + F;
+    let month = (E < 14) ? E - 1 : E - 13;
+    let year = (month > 2) ? C - 4716 : C - 4715;
+
+    return {
+        year: Math.floor(year),
+        month: Math.floor(month),
+        day: Math.floor(day)
+    };
+}
+
+function formatDate(date) {
+    const { year, month, day } = date;
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthStr = monthNames[month - 1];
+    const yearStr = year < 0 ? `${Math.abs(year)} BCE` : `${year} CE`;
+    return `${day} ${monthStr} ${yearStr}`;
+}

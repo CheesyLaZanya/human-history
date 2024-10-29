@@ -28,6 +28,7 @@ jobs:
           cp index.html dist/
           cp styles.css dist/
           cp data.json dist/
+          cp favicon.ico dist/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

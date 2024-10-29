@@ -1,11 +1,38 @@
-d3.json('data.json').then(function(events) {
+import * as d3 from 'd3';
+
+// Define interfaces for data structures
+interface DateType {
+    year: number;
+    month: number;
+    day: number;
+}
+
+type EventCategory = "event" | "technology" | "medicine";
+
+interface EventType {
+    date: DateType;
+    name: string;
+    type: EventCategory;
+    description: string;
+    dateValue?: number;
+}
+
+// Load data and process events
+d3.json<EventType[]>('data.json').then(function(events) {
+    if (!events) {
+        console.error('Failed to load events data.');
+        return;
+    }
+
     // Convert date objects to numeric values
     events.forEach(d => {
         d.dateValue = dateToNumber(d.date);
     });
 
-    const colorScale = d3.scaleOrdinal()
-        .domain(["event", "technology", "medicine"])
+    const categories: EventCategory[] = ["event", "technology", "medicine"];
+
+    const colorScale = d3.scaleOrdinal<EventCategory, string>()
+        .domain(categories)
         .range(["#ff7f0e", "#1f77b4", "#2ca02c"]);
 
     const margin = {top: 50, right: 50, bottom: 50, left: 100};
@@ -19,9 +46,15 @@ d3.json('data.json').then(function(events) {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Define x scale as linear scale based on dateValue
-    const x = d3.scaleLinear()
-        .domain(d3.extent(events, d => d.dateValue))
+    const xExtent = d3.extent(events, d => d.dateValue);
+
+    if (xExtent[0] === undefined || xExtent[1] === undefined) {
+        console.error('Invalid data for x-axis extent.');
+        return;
+    }
+
+    const x = d3.scaleLinear<number, number>()
+        .domain([xExtent[0], xExtent[1]])
         .range([0, width]);
 
     const minDateValue = x.domain()[0];
@@ -33,49 +66,47 @@ d3.json('data.json').then(function(events) {
     const totalMinutes = dayEnd - dayStart;
 
     // Map dateValues to minutes in the day
-    const xDay = d3.scaleLinear()
+    const xDay = d3.scaleLinear<number, number>()
         .domain([minDateValue, maxDateValue])
         .range([dayStart, dayEnd]);
 
     const xAxis = d3.axisBottom(x)
-        .tickFormat(d => {
-            const date = numberToDate(d);
-            const year = date.year;
-            if (year < 0) return `${Math.abs(year)} BCE`;
-            else return `${year} CE`;
-        });
+        .tickFormat((d: d3.NumberValue) => {
+          const date = numberToDate(d.valueOf());
+          const year = date.year;
+          return year < 0 ? `${Math.abs(year)} BCE` : `${year} CE`;
+    });
 
     const xAxisDay = d3.axisTop(x)
-        .tickFormat(d => {
-            const minutesInDay = xDay(d);
-            const hours = Math.floor(minutesInDay / 60);
-            const minutes = Math.floor(minutesInDay % 60);
-            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-        });
+        .tickFormat((d: d3.NumberValue) => {
+          const minutesInDay = xDay(d.valueOf());
+          const hours = Math.floor(minutesInDay / 60);
+          const minutes = Math.floor(minutesInDay % 60);
+          return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    });
 
     svg.append("g")
         .attr("class", "x-axis")
         .attr("transform", `translate(0,${height})`)
-        .call(xAxis);
+        .call(xAxis as any);
 
     svg.append("g")
         .attr("class", "x-axis-day")
-        .call(xAxisDay);
+        .call(xAxisDay as any);
 
     // Define y positions for each category
-    const categories = ["event", "technology", "medicine"];
-    const categoryScale = d3.scalePoint()
+    const categoryScale = d3.scalePoint<EventCategory>()
         .domain(categories)
         .range([50, height - 50]);
 
     // Add category labels
-    svg.selectAll(".category-label")
+    svg.selectAll<SVGTextElement, EventCategory>(".category-label")
         .data(categories)
         .enter()
         .append("text")
         .attr("class", "category-label")
         .attr("x", -margin.left + 10)
-        .attr("y", d => categoryScale(d))
+        .attr("y", d => categoryScale(d)!)
         .attr("dy", "0.35em")
         .text(d => d.charAt(0).toUpperCase() + d.slice(1));
 
@@ -92,15 +123,15 @@ d3.json('data.json').then(function(events) {
 
     let currentZoom = d3.zoomIdentity;
 
-    const zoom = d3.zoom()
+    const zoom = d3.zoom<SVGSVGElement, unknown>()
         .scaleExtent([1, 1000])
         .translateExtent([[0, 0], [width, height]])
         .extent([[0, 0], [width, height]])
         .on("zoom", zoomed);
 
-    svg.call(zoom);
+    svg.call(zoom as any);
 
-    function zoomed(event) {
+    function zoomed(event: d3.D3ZoomEvent<SVGSVGElement, unknown>) {
         currentZoom = event.transform;
         let newX = event.transform.rescaleX(x);
 
@@ -118,23 +149,23 @@ d3.json('data.json').then(function(events) {
         }
         newX.domain(newDomain);
 
-        chartArea.selectAll(".event")
-            .attr("cx", d => newX(d.dateValue));
+        chartArea.selectAll<SVGCircleElement, EventType>(".event")
+            .attr("cx", d => newX(d.dateValue!));
 
-        svg.select(".x-axis").call(xAxis.scale(newX));
-        svg.select(".x-axis-day").call(xAxisDay.scale(newX));
+        svg.select<SVGGElement>(".x-axis").call(xAxis.scale(newX) as any);
+        svg.select<SVGGElement>(".x-axis-day").call(xAxisDay.scale(newX) as any);
 
         updateZoomLevel();
     }
 
     function updateEvents() {
-        chartArea.selectAll(".event")
-            .data(events)
+        chartArea.selectAll<SVGCircleElement, EventType>(".event")
+            .data(events!)
             .join("circle")
             .attr("class", "event")
-            .attr("cx", d => x(d.dateValue))
+            .attr("cx", d => x(d.dateValue!))
             .attr("cy", d => {
-                const baseY = categoryScale(d.type);
+                const baseY = categoryScale(d.type)!;
                 // Offset based on month to reduce overlap
                 const monthOffset = ((d.date.month - 6.5) / 12) * 50; // Adjust as needed
                 return baseY + monthOffset;
@@ -147,10 +178,10 @@ d3.json('data.json').then(function(events) {
 
     const tooltip = d3.select("body").append("div")
         .attr("class", "info-bubble")
-        .style("opacity", 0);
+        .style("opacity", "0");
 
-    function showInfo(event, d) {
-        const timeSinceStart = d.dateValue - minDateValue;
+    function showInfo(event: MouseEvent, d: EventType) {
+        const timeSinceStart = d.dateValue! - minDateValue;
         const totalTimeSpan = maxDateValue - minDateValue;
         const minutesInDay = (timeSinceStart / totalTimeSpan) * totalMinutes;
         const hours = Math.floor(minutesInDay / 60);
@@ -161,7 +192,7 @@ d3.json('data.json').then(function(events) {
 
         tooltip.transition()
             .duration(200)
-            .style("opacity", .9);
+            .style("opacity", "0.9");
         tooltip.html(`
             <h3>${d.name}</h3>
             <p>Date: ${dateStr}</p>
@@ -175,7 +206,7 @@ d3.json('data.json').then(function(events) {
     function hideInfo() {
         tooltip.transition()
             .duration(500)
-            .style("opacity", 0);
+            .style("opacity", "0");
     }
 
     // Add zoom controls
@@ -197,9 +228,9 @@ d3.json('data.json').then(function(events) {
         .text("+")
         .on("click", () => zoomBy(2));
 
-    function zoomBy(factor) {
+    function zoomBy(factor: number) {
         svg.transition().duration(300).call(
-            zoom.scaleBy,
+            (zoom as any).scaleBy,
             factor
         );
     }
@@ -219,7 +250,8 @@ d3.json('data.json').then(function(events) {
     updateEvents();
 });
 
-function dateToNumber(date) {
+// Utility functions
+function dateToNumber(date: DateType): number {
     let y = date.year;
     let m = date.month;
     let d = date.day;
@@ -241,7 +273,7 @@ function dateToNumber(date) {
     return jd;
 }
 
-function numberToDate(jd) {
+function numberToDate(jd: number): DateType {
     let J = jd + 0.5;
     let Z = Math.floor(J);
     let F = J - Z;
@@ -270,7 +302,7 @@ function numberToDate(jd) {
     };
 }
 
-function formatDate(date) {
+function formatDate(date: DateType): string {
     const { year, month, day } = date;
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const monthStr = monthNames[month - 1];

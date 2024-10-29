@@ -23,8 +23,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Copy index.html to dist
-        run: cp index.html dist/
+      - name: Copy Additional Assets to dist
+        run: |
+          cp index.html dist/
+          cp styles.css dist/
+          cp data.json dist/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

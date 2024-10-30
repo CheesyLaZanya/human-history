@@ -12,7 +12,13 @@
         <input type="number" id="startYear" placeholder="Start Year">
         <input type="number" id="endYear" placeholder="End Year">
     </div>
-    <div id="timeline"></div>
+    <div id="timeline">
+        <div class="zoom-controls">
+            <button class="zoom-btn" onclick="zoomBy(0.5)">-</button>
+            <span class="zoom-level">100%</span>
+            <button class="zoom-btn" onclick="zoomBy(2)">+</button>
+        </div>
+    </div>
     <script src="bundle.js" defer></script>
 </body>
 </html>

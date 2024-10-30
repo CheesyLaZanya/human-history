@@ -27,6 +27,9 @@ const CONFIG = {
 
 const startYearInput = document.getElementById('startYear') as HTMLInputElement;
 const endYearInput = document.getElementById('endYear') as HTMLInputElement;
+const zoomLevelSpan = document.querySelector('.zoom-level') as HTMLSpanElement;
+
+let currentZoom = d3.zoomIdentity.scale(1);
 
 function getQueryParams(): { [key: string]: string } {
     const params: { [key: string]: string } = {};
@@ -38,6 +41,13 @@ function getQueryParams(): { [key: string]: string } {
 }
 
 const queryParams = getQueryParams();
+
+if (queryParams['zoom']) {
+    currentZoom = d3.zoomIdentity.scale(parseFloat(queryParams['zoom']));
+    zoomLevelSpan.textContent = `${Math.round(currentZoom.k * 100)}%`;
+} else {
+    zoomLevelSpan.textContent = `${Math.round(currentZoom.k * 100)}%`;
+}
 
 if (queryParams['startYear']) {
     startYearInput.value = queryParams['startYear'];
@@ -72,6 +82,7 @@ function filterEvents(events: EventType[], startYear: number | null, endYear: nu
 function updateQueryParams() {
     const startYearStr = startYearInput.value;
     const endYearStr = endYearInput.value;
+    const zoomLevelStr = currentZoom.k.toString();
 
     const searchParams = new URLSearchParams(window.location.search);
 
@@ -86,6 +97,8 @@ function updateQueryParams() {
     } else {
         searchParams.delete('endYear');
     }
+
+    searchParams.set('zoom', zoomLevelStr);
 
     const newRelativePathQuery = window.location.pathname + '?' + searchParams.toString() + window.location.hash;
     history.replaceState(null, '', newRelativePathQuery);
@@ -199,21 +212,21 @@ function setupSVG() {
     const width = CONFIG.width - CONFIG.margin.left - CONFIG.margin.right;
     const height = CONFIG.height - CONFIG.margin.top - CONFIG.margin.bottom;
 
-    const svg = d3.select("#timeline")
+    const svgRoot = d3.select("#timeline")
         .append("svg")
         .attr("width", CONFIG.width)
-        .attr("height", CONFIG.height)
-        .append("g")
+        .attr("height", CONFIG.height);
+
+    const svg = svgRoot.append("g")
         .attr("transform", `translate(${CONFIG.margin.left},${CONFIG.margin.top})`);
 
-    // Add background
-    svg.insert("rect", ":first-child")
+    // Add background to svgRoot
+    svgRoot.insert("rect", ":first-child")
         .attr("width", CONFIG.width)
         .attr("height", CONFIG.height)
-        .attr("transform", `translate(${-CONFIG.margin.left},${-CONFIG.margin.top})`)
         .attr("fill", "white");
 
-    return { svg, width, height };
+    return { svgRoot, svg, width, height };
 }
 
 function setupAxes(svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>, 
@@ -302,34 +315,14 @@ function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTML
     };
 }
 
-function createZoomControls(svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>, 
-                          zoom: d3.ZoomBehavior<SVGSVGElement, unknown>) {
-    const zoomControls = d3.select("#timeline")
-        .append("div")
-        .attr("class", "zoom-controls");
-
-    zoomControls.append("button")
-        .attr("class", "zoom-btn")
-        .text("-")
-        .on("click", () => zoomBy(0.5));
-
-    zoomControls.append("span")
-        .attr("class", "zoom-level")
-        .text("100%");
-
-    zoomControls.append("button")
-        .attr("class", "zoom-btn")
-        .text("+")
-        .on("click", () => zoomBy(2));
-
-    function zoomBy(factor: number) {
-        svg.transition().duration(300).call(
+function createZoomControls(svgRoot: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>, 
+    zoom: d3.ZoomBehavior<SVGSVGElement, unknown>) {
+        (window as any).zoomBy = function(factor: number) {
+        svgRoot.transition().duration(300).call(
             (zoom as any).scaleBy,
             factor
         );
-    }
-
-    return zoomControls;
+    };
 }
 
 // Main initialization
@@ -356,7 +349,7 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
         const { startYear, endYear } = getFilterYears();
         const filteredEvents = filterEvents(processedEvents, startYear, endYear);
 
-        const { svg, width, height } = setupSVG();
+        const { svgRoot, svg, width, height } = setupSVG();
         const { x, categoryScale, colorScale, xDay } = setupScales(filteredEvents, width, height, categories, colors);
         
         const minDateValue = x.domain()[0];
@@ -376,9 +369,6 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
 
         const chartArea = svg.append("g")
             .attr("clip-path", "url(#chart-area)");
-
-        // Setup zoom behavior
-        let currentZoom = d3.zoomIdentity;
 
         const zoom = d3.zoom<SVGSVGElement, unknown>()
             .scaleExtent([1, 1000])
@@ -410,12 +400,10 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
 
                 // Update zoom level display
                 const zoomPercentage = Math.round(currentZoom.k * 100);
-                d3.select(".zoom-level").text(`${zoomPercentage}%`);
+                zoomLevelSpan.textContent = `${zoomPercentage}%`;
+
+                updateQueryParams();
             });
-
-        svg.call(zoom as any);
-
-        createZoomControls(svg, zoom);
 
         function updateEvents() {
             chartArea.selectAll<SVGCircleElement, EventType>(".event")
@@ -435,6 +423,10 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
         }
 
         updateEvents();
+
+        createZoomControls(svgRoot, zoom);
+        svgRoot.call(zoom.transform, currentZoom);
+        svgRoot.call(zoom as any);
     });
 });
 

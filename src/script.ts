@@ -25,6 +25,82 @@ const CONFIG = {
     dayEnd: 24 * 60
 };
 
+const startYearInput = document.getElementById('startYear') as HTMLInputElement;
+const endYearInput = document.getElementById('endYear') as HTMLInputElement;
+
+function getQueryParams(): { [key: string]: string } {
+    const params: { [key: string]: string } = {};
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.forEach((value, key) => {
+        params[key] = value;
+    });
+    return params;
+}
+
+const queryParams = getQueryParams();
+
+if (queryParams['startYear']) {
+    startYearInput.value = queryParams['startYear'];
+}
+
+if (queryParams['endYear']) {
+    endYearInput.value = queryParams['endYear'];
+}
+
+function getFilterYears(): { startYear: number | null; endYear: number | null } {
+    const startYearStr = startYearInput.value;
+    const endYearStr = endYearInput.value;
+    const startYear = startYearStr ? parseInt(startYearStr, 10) : null;
+    const endYear = endYearStr ? parseInt(endYearStr, 10) : null;
+    return { startYear, endYear };
+}
+
+function filterEvents(events: EventType[], startYear: number | null, endYear: number | null): EventType[] {
+    return events.filter(event => {
+        const eventYear = event.date.year;
+        let include = true;
+        if (startYear !== null && eventYear < startYear) {
+            include = false;
+        }
+        if (endYear !== null && eventYear > endYear) {
+            include = false;
+        }
+        return include;
+    });
+}
+
+function updateQueryParams() {
+    const startYearStr = startYearInput.value;
+    const endYearStr = endYearInput.value;
+
+    const searchParams = new URLSearchParams(window.location.search);
+
+    if (startYearStr) {
+        searchParams.set('startYear', startYearStr);
+    } else {
+        searchParams.delete('startYear');
+    }
+
+    if (endYearStr) {
+        searchParams.set('endYear', endYearStr);
+    } else {
+        searchParams.delete('endYear');
+    }
+
+    const newRelativePathQuery = window.location.pathname + '?' + searchParams.toString() + window.location.hash;
+    history.replaceState(null, '', newRelativePathQuery);
+}
+
+startYearInput.addEventListener('change', () => {
+    updateQueryParams();
+    updateVisualization();
+});
+
+endYearInput.addEventListener('change', () => {
+    updateQueryParams();
+    updateVisualization();
+});
+
 function dateToNumber(date: DateType): number {
     let y = date.year;
     let m = date.month;
@@ -272,14 +348,16 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
         )
     );
 
-
     // Once all events are loaded, process and set up the timeline
     Promise.all(loadEvents).then(eventsArrays => {
         const allEvents = eventsArrays.flat();
         const processedEvents = processEventData(allEvents);
 
+        const { startYear, endYear } = getFilterYears();
+        const filteredEvents = filterEvents(processedEvents, startYear, endYear);
+
         const { svg, width, height } = setupSVG();
-        const { x, categoryScale, colorScale, xDay } = setupScales(processedEvents, width, height, categories, colors);
+        const { x, categoryScale, colorScale, xDay } = setupScales(filteredEvents, width, height, categories, colors);
         
         const minDateValue = x.domain()[0];
         const maxDateValue = x.domain()[1];
@@ -341,7 +419,7 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
 
         function updateEvents() {
             chartArea.selectAll<SVGCircleElement, EventType>(".event")
-                .data(processedEvents)
+                .data(filteredEvents)
                 .join("circle")
                 .attr("class", "event")
                 .attr("cx", d => x(d.dateValue!))
@@ -359,3 +437,7 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
         updateEvents();
     });
 });
+
+function updateVisualization() {
+    location.reload();
+}

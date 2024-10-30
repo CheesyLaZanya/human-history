@@ -1,0 +1,22 @@
+[
+    {
+      "category": "event",
+      "color": "#ff7f0e",
+      "file": "data/events.json"
+    },
+    {
+      "category": "technology",
+      "color": "#1f77b4",
+      "file": "data/technology.json"
+    },
+    {
+      "category": "medicine",
+      "color": "#2ca02c",
+      "file": "data/medicine.json"
+    },
+    {
+      "category": "wars",
+      "color": "#ff0000",
+      "file": "data/wars.json"
+    }
+  ]

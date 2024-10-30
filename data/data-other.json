@@ -1,0 +1,3 @@
+[
+    { "date": { "year": -3000000, "month": 1, "day": 1 }, "name": "Humans Start", "description": "Approximate time when the genus Homo first appeared.", "type": "event", "sources": ["https://www.wikipedia.org/"] }
+]

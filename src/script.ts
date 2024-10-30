@@ -6,7 +6,7 @@ interface DateType {
     day: number;
 }
 
-type EventCategory = "event" | "technology" | "medicine";
+type EventCategory = string;
 
 interface EventType {
     date: DateType;
@@ -22,9 +22,7 @@ const CONFIG = {
     width: 1000,
     height: 400,
     dayStart: 0,
-    dayEnd: 24 * 60,
-    categories: ["event", "technology", "medicine"] as EventCategory[],
-    colors: ["#ff7f0e", "#1f77b4", "#2ca02c"]
+    dayEnd: 24 * 60
 };
 
 function dateToNumber(date: DateType): number {
@@ -89,7 +87,13 @@ function processEventData(events: EventType[]): EventType[] {
     }));
 }
 
-function setupScales(events: EventType[], width: number, height: number) {
+function setupScales(
+    events: EventType[],
+    width: number,
+    height: number,
+    categories: string[],
+    colors: { [key: string]: string }
+) {
     const xExtent = d3.extent(events, d => d.dateValue);
     
     if (!xExtent[0] || !xExtent[1]) {
@@ -100,13 +104,13 @@ function setupScales(events: EventType[], width: number, height: number) {
         .domain([xExtent[0], xExtent[1]])
         .range([0, width]);
 
-    const categoryScale = d3.scalePoint<EventCategory>()
-        .domain(CONFIG.categories)
+    const categoryScale = d3.scalePoint<string>()
+        .domain(categories)
         .range([50, height - 50]);
 
-    const colorScale = d3.scaleOrdinal<EventCategory, string>()
-        .domain(CONFIG.categories)
-        .range(CONFIG.colors);
+    const colorScale = d3.scaleOrdinal<string, string>()
+        .domain(categories)
+        .range(categories.map(category => colors[category]));
 
     const xDay = d3.scaleLinear<number, number>()
         .domain([xExtent[0], xExtent[1]])
@@ -168,9 +172,10 @@ function setupAxes(svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
 }
 
 function setupCategories(svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
-                        categoryScale: d3.ScalePoint<EventCategory>) {
+                        categoryScale: d3.ScalePoint<EventCategory>,
+                        categories: string[]) {
     svg.selectAll<SVGTextElement, EventCategory>(".category-label")
-        .data(CONFIG.categories)
+        .data(categories)
         .enter()
         .append("text")
         .attr("class", "category-label")
@@ -198,6 +203,8 @@ function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTML
             const minutes = Math.floor(minutesInDay % 60);
             const timeInDay = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 
+            const sourcesList = d.sources.map(source => `<li><a href="${source}" target="_blank">${source}</a></li>`).join('');
+
             tooltip.transition()
                 .duration(200)
                 .style("opacity", "0.9");
@@ -206,6 +213,7 @@ function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTML
                 <p>Date: ${formatDate(d.date)}</p>
                 <p>Time in Day: ${timeInDay}</p>
                 <p>${d.description}</p>
+                <ul>${sourcesList}</ul>
             `)
                 .style("left", (event.pageX + 15) + "px")
                 .style("top", (event.pageY - 28) + "px");
@@ -249,92 +257,105 @@ function createZoomControls(svg: d3.Selection<SVGGElement, unknown, HTMLElement,
 }
 
 // Main initialization
-d3.json<EventType[]>('data/timeline-events.json').then(function(events) {
-    if (!events) {
-        console.error('Failed to load events data.');
+d3.json<{ category: string; color: string; file: string }[]>('data/categories.json').then(categoriesConfig => {
+    if (!categoriesConfig) {
+        console.error('Failed to load categories configuration.');
         return;
     }
 
-    const processedEvents = processEventData(events);
+    const categories = categoriesConfig.map(c => c.category);
+    const colors = categoriesConfig.reduce((acc, c) => ({ ...acc, [c.category]: c.color }), {});
 
-    const { svg, width, height } = setupSVG();
+    const loadEvents = categoriesConfig.map(config => 
+        d3.json<EventType[] | null>(config.file).then(events => 
+            events ? events.map(e => ({ ...e, type: config.category })) : []  // If events is null, return an empty array
+        )
+    );
 
-    const { x, categoryScale, colorScale, xDay } = setupScales(processedEvents, width, height);
-    const minDateValue = x.domain()[0];
-    const maxDateValue = x.domain()[1];
 
-    const { xAxis, xAxisDay } = setupAxes(svg, x, xDay, height);
+    // Once all events are loaded, process and set up the timeline
+    Promise.all(loadEvents).then(eventsArrays => {
+        const allEvents = eventsArrays.flat();
+        const processedEvents = processEventData(allEvents);
 
-    setupCategories(svg, categoryScale);
+        const { svg, width, height } = setupSVG();
+        const { x, categoryScale, colorScale, xDay } = setupScales(processedEvents, width, height, categories, colors);
+        
+        const minDateValue = x.domain()[0];
+        const maxDateValue = x.domain()[1];
+        const { xAxis, xAxisDay } = setupAxes(svg, x, xDay, height);
 
-    const tooltip = createTooltip();
-    const eventHandlers = createEventHandlers(tooltip, minDateValue, maxDateValue);
+        setupCategories(svg, categoryScale, categories);
 
-    svg.append("clipPath")
-        .attr("id", "chart-area")
-        .append("rect")
-        .attr("width", width)
-        .attr("height", height);
+        const tooltip = createTooltip();
+        const eventHandlers = createEventHandlers(tooltip, minDateValue, maxDateValue);
 
-    const chartArea = svg.append("g")
-        .attr("clip-path", "url(#chart-area)");
+        svg.append("clipPath")
+            .attr("id", "chart-area")
+            .append("rect")
+            .attr("width", width)
+            .attr("height", height);
 
-    // Setup zoom behavior
-    let currentZoom = d3.zoomIdentity;
+        const chartArea = svg.append("g")
+            .attr("clip-path", "url(#chart-area)");
 
-    const zoom = d3.zoom<SVGSVGElement, unknown>()
-        .scaleExtent([1, 1000])
-        .translateExtent([[0, 0], [width, height]])
-        .extent([[0, 0], [width, height]])
-        .on("zoom", (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
-            currentZoom = event.transform;
-            let newX = event.transform.rescaleX(x);
+        // Setup zoom behavior
+        let currentZoom = d3.zoomIdentity;
 
-            // Constrain the domain
-            let newDomain = newX.domain();
-            if (newDomain[0] < minDateValue) {
-                const shift = minDateValue - newDomain[0];
-                newDomain[0] = minDateValue;
-                newDomain[1] += shift;
-            }
-            if (newDomain[1] > maxDateValue) {
-                const shift = newDomain[1] - maxDateValue;
-                newDomain[1] = maxDateValue;
-                newDomain[0] -= shift;
-            }
-            newX.domain(newDomain);
+        const zoom = d3.zoom<SVGSVGElement, unknown>()
+            .scaleExtent([1, 1000])
+            .translateExtent([[0, 0], [width, height]])
+            .extent([[0, 0], [width, height]])
+            .on("zoom", (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
+                currentZoom = event.transform;
+                let newX = event.transform.rescaleX(x);
 
+                // Constrain the domain
+                let newDomain = newX.domain();
+                if (newDomain[0] < minDateValue) {
+                    const shift = minDateValue - newDomain[0];
+                    newDomain[0] = minDateValue;
+                    newDomain[1] += shift;
+                }
+                if (newDomain[1] > maxDateValue) {
+                    const shift = newDomain[1] - maxDateValue;
+                    newDomain[1] = maxDateValue;
+                    newDomain[0] -= shift;
+                }
+                newX.domain(newDomain);
+
+                chartArea.selectAll<SVGCircleElement, EventType>(".event")
+                    .attr("cx", d => newX(d.dateValue!));
+
+                svg.select<SVGGElement>(".x-axis").call(xAxis.scale(newX) as any);
+                svg.select<SVGGElement>(".x-axis-day").call(xAxisDay.scale(newX) as any);
+
+                // Update zoom level display
+                const zoomPercentage = Math.round(currentZoom.k * 100);
+                d3.select(".zoom-level").text(`${zoomPercentage}%`);
+            });
+
+        svg.call(zoom as any);
+
+        createZoomControls(svg, zoom);
+
+        function updateEvents() {
             chartArea.selectAll<SVGCircleElement, EventType>(".event")
-                .attr("cx", d => newX(d.dateValue!));
+                .data(processedEvents)
+                .join("circle")
+                .attr("class", "event")
+                .attr("cx", d => x(d.dateValue!))
+                .attr("cy", d => {
+                    const baseY = categoryScale(d.type)!;
+                    const monthOffset = ((d.date.month - 6.5) / 12) * 50;
+                    return baseY + monthOffset;
+                })
+                .attr("r", 5)
+                .attr("fill", d => colorScale(d.type))
+                .on("mouseover", eventHandlers.showInfo)
+                .on("mouseout", eventHandlers.hideInfo);
+        }
 
-            svg.select<SVGGElement>(".x-axis").call(xAxis.scale(newX) as any);
-            svg.select<SVGGElement>(".x-axis-day").call(xAxisDay.scale(newX) as any);
-
-            // Update zoom level display
-            const zoomPercentage = Math.round(currentZoom.k * 100);
-            d3.select(".zoom-level").text(`${zoomPercentage}%`);
-        });
-
-    svg.call(zoom as any);
-
-    createZoomControls(svg, zoom);
-
-    function updateEvents() {
-        chartArea.selectAll<SVGCircleElement, EventType>(".event")
-            .data(processedEvents)
-            .join("circle")
-            .attr("class", "event")
-            .attr("cx", d => x(d.dateValue!))
-            .attr("cy", d => {
-                const baseY = categoryScale(d.type)!;
-                const monthOffset = ((d.date.month - 6.5) / 12) * 50;
-                return baseY + monthOffset;
-            })
-            .attr("r", 5)
-            .attr("fill", d => colorScale(d.type))
-            .on("mouseover", eventHandlers.showInfo)
-            .on("mouseout", eventHandlers.hideInfo);
-    }
-
-    updateEvents();
+        updateEvents();
+    });
 });

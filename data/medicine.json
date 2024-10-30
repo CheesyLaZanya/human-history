@@ -1,0 +1,4 @@
+[
+    { "date": { "year": 1928, "month": 9, "day": 28 }, "name": "Discovery of Penicillin", "description": "Alexander Fleming discovers penicillin.", "type": "medicine", "sources": ["https://www.wikipedia.org/"] },
+    { "date": { "year": 1972, "month": 1, "day": 1 }, "name": "First Microplastic Discovery", "description": "Scientists first discover plastic particles in ocean waters, marking the beginning of microplastic awareness.", "type": "medicine", "sources": ["https://www.wikipedia.org/"] }
+]

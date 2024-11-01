@@ -357,8 +357,24 @@ function createTooltip() {
 function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>,
                            minDateValue: number,
                            maxDateValue: number) {
+    let isOverTooltip = false;
+    let isOverEvent = false;
+    
+    tooltip
+        .on("mouseover", () => { isOverTooltip = true; })
+        .on("mouseout", () => {
+            isOverTooltip = false;
+            // Only hide if mouse isn't over event either
+            if (!isOverEvent) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", "0");
+            }
+        });
+
     return {
         showInfo: (event: MouseEvent, d: EventType) => {
+            isOverEvent = true;
             const timeSinceStart = d.dateValue! - minDateValue;
             const totalTimeSpan = maxDateValue - minDateValue;
             const minutesInDay = (timeSinceStart / totalTimeSpan) * (CONFIG.dayEnd - CONFIG.dayStart);
@@ -371,6 +387,16 @@ function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTML
             tooltip.transition()
                 .duration(200)
                 .style("opacity", "0.9");
+
+            const tooltipWidth = 300;
+            const screenWidth = window.innerWidth;
+            const mouseX = event.pageX;
+            
+            // Position tooltip to the left if mouse is in right half of screen
+            const xPosition = mouseX > screenWidth / 2
+                ? mouseX - tooltipWidth - 30
+                : mouseX + 15;
+
             tooltip.html(`
                 <h3>${d.name}</h3>
                 <p>Date: ${formatDate(d.date)}</p>
@@ -378,13 +404,17 @@ function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTML
                 <p>${d.description}</p>
                 <ul>${sourcesList}</ul>
             `)
-                .style("left", (event.pageX + 15) + "px")
+                .style("left", xPosition + "px")
                 .style("top", (event.pageY - 28) + "px");
         },
         hideInfo: () => {
-            tooltip.transition()
-                .duration(500)
-                .style("opacity", "0");
+            isOverEvent = false;
+            // Only hide if mouse isn't over tooltip either
+            if (!isOverTooltip) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", "0");
+            }
         }
     };
 }

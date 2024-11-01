@@ -27,6 +27,10 @@ const CONFIG = {
     dayEnd: 24 * 60
 };
 
+let lastZoomLevel: number | null = null;
+let lastStartYear: string | null = null;
+let lastEndYear: string | null = null;
+
 function calculateDimensions() {
     const container = document.getElementById('timeline');
     if (!container) return { width: CONFIG.minWidth, height: CONFIG.minHeight };
@@ -168,24 +172,32 @@ function updateQueryParams() {
     const endYearStr = endYearInput.value;
     const zoomLevelStr = currentZoom.k.toString();
 
-    const searchParams = new URLSearchParams(window.location.search);
+    // Only update the query parameters if the values have changed
+    if (startYearStr !== lastStartYear || endYearStr !== lastEndYear || currentZoom.k !== lastZoomLevel) {
+        const searchParams = new URLSearchParams(window.location.search);
 
-    if (startYearStr) {
-        searchParams.set('startYear', startYearStr);
-    } else {
-        searchParams.delete('startYear');
+        if (startYearStr) {
+            searchParams.set('startYear', startYearStr);
+        } else {
+            searchParams.delete('startYear');
+        }
+
+        if (endYearStr) {
+            searchParams.set('endYear', endYearStr);
+        } else {
+            searchParams.delete('endYear');
+        }
+
+        searchParams.set('zoom', zoomLevelStr);
+
+        const newRelativePathQuery = window.location.pathname + '?' + searchParams.toString() + window.location.hash;
+        history.replaceState(null, '', newRelativePathQuery);
+
+        // Update the last values
+        lastStartYear = startYearStr;
+        lastEndYear = endYearStr;
+        lastZoomLevel = currentZoom.k;
     }
-
-    if (endYearStr) {
-        searchParams.set('endYear', endYearStr);
-    } else {
-        searchParams.delete('endYear');
-    }
-
-    searchParams.set('zoom', zoomLevelStr);
-
-    const newRelativePathQuery = window.location.pathname + '?' + searchParams.toString() + window.location.hash;
-    history.replaceState(null, '', newRelativePathQuery);
 }
 
 startYearInput.addEventListener('change', () => {
@@ -529,21 +541,28 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
                 }
                 newX.domain(newDomain);
 
+                svg.select<SVGGElement>(".x-axis").call(xAxis.scale(newX) as any);
+                svg.select<SVGGElement>(".x-axis-day").call(xAxisDay.scale(newX) as any);
+
                 chartArea.selectAll<SVGCircleElement, EventType>(".event")
                     .attr("cx", d => newX(d.dateValue!));
 
-                chartArea.selectAll<SVGRectElement, EventType>(".event")
-                    .attr("x", d => x(d.dateValue!))
-                    .attr("width", d => x(d.endDateValue!) - x(d.dateValue!));
-
-                svg.select<SVGGElement>(".x-axis").call(xAxis.scale(newX) as any);
-                svg.select<SVGGElement>(".x-axis-day").call(xAxisDay.scale(newX) as any);
+                chartArea.selectAll<SVGRectElement, EventType>(".event")    
+                    .attr("x", d => newX(d.dateValue!))
+                    .attr("width", d => newX(d.endDateValue!) - newX(d.dateValue!));
 
                 // Update zoom level display
                 const zoomPercentage = Math.round(currentZoom.k * 100);
                 zoomLevelSpan.textContent = `${zoomPercentage}%`;
 
-                updateQueryParams();
+                let queryUpdateTimeout: number | null = null;
+                
+                if (queryUpdateTimeout) {
+                    window.clearTimeout(queryUpdateTimeout);
+                }
+                queryUpdateTimeout = window.setTimeout(() => {
+                    updateQueryParams();
+                }, 500);
             }
         );
 
@@ -565,9 +584,8 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
                         return baseY + monthOffset - 3;
                     })
                     .attr("width", d => x(d.endDateValue!) - x(d.dateValue!))
-                    .attr("height", 6)
+                    .attr("height", 10)
                     .attr("fill", d => colorScale(d.type))
-                    .attr("opacity", 0.7)
                     .on("mouseover", eventHandlers.showInfo)
                     .on("mouseout", eventHandlers.hideInfo);
 

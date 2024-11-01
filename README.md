@@ -5,7 +5,7 @@ A timeline of all the interesting bits from technology/innovation/etc. in human 
 
 The easiest way to run this locally is to run:
 
-`python -m http.server 8000`
+`npm run start`
 
 Then you can access the site at:
 

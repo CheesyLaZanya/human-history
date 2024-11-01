@@ -19,11 +19,83 @@ interface EventType {
 
 const CONFIG = {
     margin: { top: 50, right: 50, bottom: 50, left: 100 },
-    width: 1000,
-    height: 400,
+    minWidth: 800,
+    minHeight: 300,
     dayStart: 0,
     dayEnd: 24 * 60
 };
+
+function calculateDimensions() {
+    const container = document.getElementById('timeline');
+    if (!container) return { width: CONFIG.minWidth, height: CONFIG.minHeight };
+
+    const parent = container.parentElement;
+    if (!parent) return { width: CONFIG.minWidth, height: CONFIG.minHeight };
+
+    const padding = 40;
+    const availableWidth = parent.clientWidth - padding;
+    const availableHeight = window.innerHeight * 0.7;
+
+    const width = Math.max(CONFIG.minWidth, availableWidth);
+    const height = Math.max(CONFIG.minHeight, availableHeight);
+
+    return { width, height };
+}
+
+function handleResize(
+    svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>,
+    chartArea: d3.Selection<SVGGElement, unknown, HTMLElement, any>,
+    x: d3.ScaleLinear<number, number>,
+    xAxis: d3.Axis<d3.NumberValue>,
+    xAxisDay: d3.Axis<d3.NumberValue>,
+    categoryScale: d3.ScalePoint<string>,
+    zoom: d3.ZoomBehavior<SVGSVGElement, unknown>,
+    events: EventType[]
+) {
+    const { width, height } = calculateDimensions();
+    
+    svg.attr("width", width)
+       .attr("height", height);
+
+    svg.select("rect")
+       .attr("width", width)
+       .attr("height", height);
+
+    const plotWidth = width - CONFIG.margin.left - CONFIG.margin.right;
+    const plotHeight = height - CONFIG.margin.top - CONFIG.margin.bottom;
+    
+    x.range([0, plotWidth]);
+    categoryScale.range([50, plotHeight - 50]);
+
+    svg.select(".x-axis")
+       .attr("transform", `translate(0,${plotHeight})`)
+       .call(xAxis as any);
+
+    svg.select(".x-axis-day")
+       .call(xAxisDay as any);
+
+    svg.select("#chart-area rect")
+       .attr("width", plotWidth)
+       .attr("height", plotHeight);
+
+    zoom.translateExtent([[0, 0], [plotWidth, plotHeight]])
+        .extent([[0, 0], [plotWidth, plotHeight]]);
+
+    chartArea.selectAll<SVGCircleElement, EventType>(".event")
+        .data(events)
+        .attr("cx", d => x(d.dateValue!))
+        .attr("cy", d => {
+            const baseY = categoryScale(d.type)!;
+            const monthOffset = ((d.date.month - 6.5) / 12) * 50;
+            return baseY + monthOffset;
+        });
+
+    svg.selectAll<SVGTextElement, string>(".category-label")
+        .attr("x", -CONFIG.margin.left + 10)
+        .attr("y", d => categoryScale(d)!);
+
+    return { plotWidth, plotHeight };
+}
 
 const startYearInput = document.getElementById('startYear') as HTMLInputElement;
 const endYearInput = document.getElementById('endYear') as HTMLInputElement;
@@ -209,24 +281,26 @@ function setupScales(
 }
 
 function setupSVG() {
-    const width = CONFIG.width - CONFIG.margin.left - CONFIG.margin.right;
-    const height = CONFIG.height - CONFIG.margin.top - CONFIG.margin.bottom;
+    const { width, height } = calculateDimensions();
+
+    const plotWidth = width - CONFIG.margin.left - CONFIG.margin.right;
+    const plotHeight = height - CONFIG.margin.top - CONFIG.margin.bottom;
 
     const svgRoot = d3.select("#timeline")
         .append("svg")
-        .attr("width", CONFIG.width)
-        .attr("height", CONFIG.height);
+        .attr("width", width)
+        .attr("height", height);
 
     const svg = svgRoot.append("g")
         .attr("transform", `translate(${CONFIG.margin.left},${CONFIG.margin.top})`);
 
     // Add background to svgRoot
     svgRoot.insert("rect", ":first-child")
-        .attr("width", CONFIG.width)
-        .attr("height", CONFIG.height)
+        .attr("width", width)
+        .attr("height", height)
         .attr("fill", "white");
 
-    return { svgRoot, svg, width, height };
+    return { svgRoot, svg, width: plotWidth, height: plotHeight };
 }
 
 function setupAxes(svg: d3.Selection<SVGGElement, unknown, HTMLElement, any>, 
@@ -315,7 +389,15 @@ function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTML
     };
 }
 
-function createZoomControls(svgRoot: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>, 
+function createZoom(width: number, height: number, x: d3.ScaleLinear<number, number>) {
+    return d3.zoom<SVGSVGElement, unknown>()
+        .scaleExtent([1, 1000])
+        .translateExtent([[0, 0], [width, height]])
+        .extent([[0, 0], [width, height]])
+        .on("zoom", null); // To be set later
+}
+
+function addZoomBehavior(svgRoot: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>, 
     zoom: d3.ZoomBehavior<SVGSVGElement, unknown>) {
         (window as any).zoomBy = function(factor: number) {
         svgRoot.transition().duration(300).call(
@@ -370,11 +452,9 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
         const chartArea = svg.append("g")
             .attr("clip-path", "url(#chart-area)");
 
-        const zoom = d3.zoom<SVGSVGElement, unknown>()
-            .scaleExtent([1, 1000])
-            .translateExtent([[0, 0], [width, height]])
-            .extent([[0, 0], [width, height]])
-            .on("zoom", (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
+        const zoom = createZoom(width, height, x);
+
+        zoom.on("zoom", (event: d3.D3ZoomEvent<SVGSVGElement, unknown>) => {
                 currentZoom = event.transform;
                 let newX = event.transform.rescaleX(x);
 
@@ -403,7 +483,54 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
                 zoomLevelSpan.textContent = `${zoomPercentage}%`;
 
                 updateQueryParams();
-            });
+            }
+        );
+
+        chartArea.selectAll<SVGCircleElement, EventType>(".event")
+            .data(filteredEvents)
+            .join("circle")
+            .attr("class", "event")
+            .attr("cx", d => x(d.dateValue!))
+            .attr("cy", d => {
+                const baseY = categoryScale(d.type)!;
+                const monthOffset = ((d.date.month - 6.5) / 12) * 50;
+                return baseY + monthOffset;
+            })
+            .attr("r", 5)
+            .attr("fill", d => colorScale(d.type))
+            .on("mouseover", eventHandlers.showInfo)
+            .on("mouseout", eventHandlers.hideInfo);
+
+        let resizeTimeout: number | null = null;
+        window.addEventListener('resize', () => {
+            // Debounce resize events
+            if (resizeTimeout) {
+                window.clearTimeout(resizeTimeout);
+            }
+            resizeTimeout = window.setTimeout(() => {
+                handleResize(
+                    svgRoot, 
+                    chartArea, 
+                    x, 
+                    xAxis, 
+                    xAxisDay, 
+                    categoryScale, 
+                    zoom, 
+                    filteredEvents
+                );
+            }, 250);
+        });
+
+        handleResize(
+            svgRoot, 
+            chartArea, 
+            x, 
+            xAxis, 
+            xAxisDay, 
+            categoryScale, 
+            zoom, 
+            filteredEvents
+        );
 
         function updateEvents() {
             chartArea.selectAll<SVGCircleElement, EventType>(".event")
@@ -424,7 +551,7 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
 
         updateEvents();
 
-        createZoomControls(svgRoot, zoom);
+        addZoomBehavior(svgRoot, zoom);
         svgRoot.call(zoom.transform, currentZoom);
         svgRoot.call(zoom as any);
     });
@@ -433,3 +560,19 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
 function updateVisualization() {
     location.reload();
 }
+
+const style = document.createElement('style');
+style.textContent = `
+    #timeline {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    
+    .info-bubble {
+        max-width: 300px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+`;
+document.head.appendChild(style);

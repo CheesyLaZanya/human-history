@@ -1,14 +1,158 @@
 [
-    { "date": { "year": -10000, "month": 1, "day": 1 }, "name": "Agriculture", "description": "Development of agriculture and the beginning of settled human communities.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": -3200, "month": 1, "day": 1 }, "name": "Writing Systems", "description": "Development of the first writing systems in Mesopotamia, marking the beginning of recorded history.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1364, "month": 1, "day": 1 }, "name": "First Firearms", "description": "First recorded use of a hand cannon in Europe, marking the beginning of firearms technology.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1440, "month": 1, "day": 1 }, "name": "Printing Press", "description": "Johannes Gutenberg invents the movable-type printing press.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1769, "month": 1, "day": 1 }, "name": "Steam Engine", "description": "James Watt patents the steam engine, kickstarting the Industrial Revolution.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1876, "month": 3, "day": 7 }, "name": "Telephone", "description": "Alexander Graham Bell patents the telephone.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1907, "month": 1, "day": 1 }, "name": "Plastic Invention", "description": "Leo Baekeland invents Bakelite, the first fully synthetic plastic.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1945, "month": 8, "day": 6 }, "name": "First Nuclear Weapon", "description": "First atomic bomb used in warfare over Hiroshima, marking the beginning of the nuclear age.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1952, "month": 1, "day": 1 }, "name": "First Video Game", "description": "A.S. Douglas creates OXO (tic-tac-toe), considered one of the first video games, for the EDSAC computer.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1989, "month": 3, "day": 12 }, "name": "World Wide Web", "description": "Tim Berners-Lee invents the World Wide Web.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1998, "month": 11, "day": 20 }, "name": "ISS Construction Begins", "description": "Launch of Zarya, the first module of the International Space Station.", "type": "technology", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 2008, "month": 9, "day": 10 }, "name": "Large Hadron Collider", "description": "CERN's Large Hadron Collider becomes operational, the world's largest and highest-energy particle collider.", "type": "technology", "sources": ["https://www.wikipedia.org/"] }
-]
+    {
+      "date": {
+        "year": -10000,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Agriculture",
+      "description": "Development of agriculture and the beginning of settled human communities.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": -3200,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Writing Systems",
+      "description": "Development of the first writing systems in Mesopotamia, marking the beginning of recorded history.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1364,
+        "month": 1,
+        "day": 1
+      },
+      "name": "First Firearms",
+      "description": "First recorded use of a hand cannon in Europe, marking the beginning of firearms technology.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1440,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Printing Press",
+      "description": "Johannes Gutenberg invents the movable-type printing press.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1769,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Steam Engine",
+      "description": "James Watt patents the steam engine, kickstarting the Industrial Revolution.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1876,
+        "month": 3,
+        "day": 7
+      },
+      "name": "Telephone",
+      "description": "Alexander Graham Bell patents the telephone.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1907,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Plastic Invention",
+      "description": "Leo Baekeland invents Bakelite, the first fully synthetic plastic.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1945,
+        "month": 8,
+        "day": 6
+      },
+      "name": "First Nuclear Weapon",
+      "description": "First atomic bomb used in warfare over Hiroshima, marking the beginning of the nuclear age.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1952,
+        "month": 1,
+        "day": 1
+      },
+      "name": "First Video Game",
+      "description": "A.S. Douglas creates OXO (tic-tac-toe), considered one of the first video games, for the EDSAC computer.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1989,
+        "month": 3,
+        "day": 12
+      },
+      "name": "World Wide Web",
+      "description": "Tim Berners-Lee invents the World Wide Web.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1998,
+        "month": 11,
+        "day": 20
+      },
+      "name": "ISS Construction Begins",
+      "description": "Launch of Zarya, the first module of the International Space Station.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 2008,
+        "month": 9,
+        "day": 10
+      },
+      "name": "Large Hadron Collider",
+      "description": "CERN's Large Hadron Collider becomes operational, the world's largest and highest-energy particle collider.",
+      "type": "technology",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    }
+  ]

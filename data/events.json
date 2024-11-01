@@ -1,11 +1,119 @@
 [
-    { "date": { "year": -3000000, "month": 1, "day": 1 }, "name": "Humans Start", "description": "Approximate time when the genus Homo first appeared.", "type": "event", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": -30000, "month": 1, "day": 1 }, "name": "Dog Domestication", "description": "Early humans begin domesticating wolves, leading to the first dogs. This marks one of humanity's first animal partnerships.", "type": "event", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": -7500, "month": 1, "day": 1 }, "name": "Cat Domestication", "description": "Cats begin living alongside humans in the Fertile Crescent, likely attracted to rodents in grain storage.", "type": "event", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": -2560, "month": 1, "day": 1 }, "name": "Great Pyramid of Giza", "description": "Completion of the Great Pyramid of Giza, the oldest and largest of the Seven Wonders of the Ancient World.", "type": "event", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": -280, "month": 1, "day": 1 }, "name": "Colossus of Rhodes", "description": "Completion of the Colossus of Rhodes, a 108-foot-tall bronze statue of Helios.", "type": "event", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1903, "month": 12, "day": 17 }, "name": "First Flight", "description": "Wright brothers achieve the first sustained, controlled, powered flight.", "type": "event", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1954, "month": 9, "day": 1 }, "name": "CERN Founded", "description": "The European Organization for Nuclear Research (CERN) is established.", "type": "event", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 1969, "month": 7, "day": 20 }, "name": "Moon Landing", "description": "Neil Armstrong becomes the first human to step on the Moon.", "type": "event", "sources": ["https://www.wikipedia.org/"] },
-    { "date": { "year": 2024, "month": 1, "day": 1 }, "name": "Present Day", "description": "Current date as of this timeline's creation.", "type": "event", "sources": ["https://www.wikipedia.org/"] }
-]
+    {
+      "date": {
+        "year": -3000000,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Humans Start",
+      "description": "Approximate time when the genus Homo first appeared.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": -30000,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Dog Domestication",
+      "description": "Early humans begin domesticating wolves, leading to the first dogs. This marks one of humanity's first animal partnerships.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": -7500,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Cat Domestication",
+      "description": "Cats begin living alongside humans in the Fertile Crescent, likely attracted to rodents in grain storage.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": -2560,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Great Pyramid of Giza",
+      "description": "Completion of the Great Pyramid of Giza, the oldest and largest of the Seven Wonders of the Ancient World.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": -280,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Colossus of Rhodes",
+      "description": "Completion of the Colossus of Rhodes, a 108-foot-tall bronze statue of Helios.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1903,
+        "month": 12,
+        "day": 17
+      },
+      "name": "First Flight",
+      "description": "Wright brothers achieve the first sustained, controlled, powered flight.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1954,
+        "month": 9,
+        "day": 1
+      },
+      "name": "CERN Founded",
+      "description": "The European Organization for Nuclear Research (CERN) is established.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 1969,
+        "month": 7,
+        "day": 20
+      },
+      "name": "Moon Landing",
+      "description": "Neil Armstrong becomes the first human to step on the Moon.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    },
+    {
+      "date": {
+        "year": 2024,
+        "month": 1,
+        "day": 1
+      },
+      "name": "Present Day",
+      "description": "Current date as of this timeline's creation.",
+      "type": "event",
+      "sources": [
+        "https://www.wikipedia.org/"
+      ]
+    }
+  ]

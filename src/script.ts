@@ -361,7 +361,11 @@ function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTML
     let isOverEvent = false;
     
     tooltip
-        .on("mouseover", () => { isOverTooltip = true; })
+        .on("mouseover", () => { 
+            isOverTooltip = true;
+            tooltip.interrupt(); // Cancel any in-progress transitions
+            tooltip.style("opacity", "0.9");
+        })
         .on("mouseout", () => {
             isOverTooltip = false;
             // Only hide if mouse isn't over event either
@@ -603,6 +607,11 @@ style.textContent = `
         max-width: 300px;
         max-height: 80vh;
         overflow-y: auto;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        pointer-events: auto !important; /* Force pointer events to be enabled */
     }
 `;
 document.head.appendChild(style);

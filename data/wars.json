@@ -1,3 +1,10 @@
 [
-    { "date": { "year": 1939, "month": 9, "day": 1 }, "name": "WW2", "description": "The start of the second World War", "type": "event", "sources": ["https://www.wikipedia.org/"] }
+    {
+        "date": { "year": 1939, "month": 9, "day": 1 },
+        "endDate": { "year": 1945, "month": 9, "day": 2 },
+        "name": "WW2",
+        "description": "The second World War",
+        "type": "event",
+        "sources": ["https://www.wikipedia.org/"]
+    }
 ]

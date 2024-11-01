@@ -10,11 +10,13 @@ type EventCategory = string;
 
 interface EventType {
     date: DateType;
+    endDate?: DateType;
     name: string;
     type: EventCategory;
     description: string;
     sources: string[];
     dateValue?: number;
+    endDateValue?: number;
 }
 
 const CONFIG = {
@@ -89,6 +91,16 @@ function handleResize(
             const monthOffset = ((d.date.month - 6.5) / 12) * 50;
             return baseY + monthOffset;
         });
+
+    chartArea.selectAll<SVGRectElement, EventType>(".event")
+        .data(events)
+        .attr("x", d => x(d.dateValue!))
+        .attr("y", d => {
+            const baseY = categoryScale(d.type)!;
+            const monthOffset = ((d.date.month - 6.5) / 12) * 50;
+            return baseY + monthOffset;
+        })
+        .attr("width", d => x(d.endDateValue!) - x(d.dateValue!));
 
     svg.selectAll<SVGTextElement, string>(".category-label")
         .attr("x", -CONFIG.margin.left + 10)
@@ -244,7 +256,8 @@ function formatDate(date: DateType): string {
 function processEventData(events: EventType[]): EventType[] {
     return events.map(event => ({
         ...event,
-        dateValue: dateToNumber(event.date)
+        dateValue: dateToNumber(event.date),
+        endDateValue: event.endDate ? dateToNumber(event.endDate) : undefined
     }));
 }
 
@@ -255,7 +268,13 @@ function setupScales(
     categories: string[],
     colors: { [key: string]: string }
 ) {
-    const xExtent = d3.extent(events, d => d.dateValue);
+    const allDates = events.flatMap(event => 
+        event.endDate 
+            ? [event.dateValue!, event.endDateValue!] 
+            : [event.dateValue!]
+    );
+
+    const xExtent = d3.extent(allDates);
     
     if (!xExtent[0] || !xExtent[1]) {
         throw new Error('Invalid data for x-axis extent.');
@@ -401,9 +420,13 @@ function createEventHandlers(tooltip: d3.Selection<HTMLDivElement, unknown, HTML
                 ? mouseX - tooltipWidth - 30
                 : mouseX + 15;
 
+            const dateString = d.endDate 
+                ? `Start: ${formatDate(d.date)}<br>End: ${formatDate(d.endDate)}` 
+                : `Date: ${formatDate(d.date)}`;
+
             tooltip.html(`
                 <h3>${d.name}</h3>
-                <p>Date: ${formatDate(d.date)}</p>
+                <p>Date: ${dateString}</p>
                 <p>Time in Day: ${timeInDay}</p>
                 <p>${d.description}</p>
                 <ul>${sourcesList}</ul>
@@ -509,6 +532,10 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
                 chartArea.selectAll<SVGCircleElement, EventType>(".event")
                     .attr("cx", d => newX(d.dateValue!));
 
+                chartArea.selectAll<SVGRectElement, EventType>(".event")
+                    .attr("x", d => x(d.dateValue!))
+                    .attr("width", d => x(d.endDateValue!) - x(d.dateValue!));
+
                 svg.select<SVGGElement>(".x-axis").call(xAxis.scale(newX) as any);
                 svg.select<SVGGElement>(".x-axis-day").call(xAxisDay.scale(newX) as any);
 
@@ -520,20 +547,50 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
             }
         );
 
-        chartArea.selectAll<SVGCircleElement, EventType>(".event")
+        function updateEvents() {
+            chartArea.selectAll(".event")
             .data(filteredEvents)
-            .join("circle")
-            .attr("class", "event")
-            .attr("cx", d => x(d.dateValue!))
-            .attr("cy", d => {
-                const baseY = categoryScale(d.type)!;
-                const monthOffset = ((d.date.month - 6.5) / 12) * 50;
-                return baseY + monthOffset;
-            })
-            .attr("r", 5)
-            .attr("fill", d => colorScale(d.type))
-            .on("mouseover", eventHandlers.showInfo)
-            .on("mouseout", eventHandlers.hideInfo);
+            .join(enter => {
+                const groups = enter.append("g")
+                    .attr("class", "event-group");
+
+                // For events with an end date, create a rectangle
+                groups.filter(d => (d.endDate != null))
+                    .append("rect")
+                    .attr("class", "event event-range")
+                    .attr("x", d => x(d.dateValue!))
+                    .attr("y", d => {
+                        const baseY = categoryScale(d.type)!;
+                        const monthOffset = ((d.date.month - 6.5) / 12) * 50;
+                        return baseY + monthOffset - 3;
+                    })
+                    .attr("width", d => x(d.endDateValue!) - x(d.dateValue!))
+                    .attr("height", 6)
+                    .attr("fill", d => colorScale(d.type))
+                    .attr("opacity", 0.7)
+                    .on("mouseover", eventHandlers.showInfo)
+                    .on("mouseout", eventHandlers.hideInfo);
+
+                // For point events, create a circle
+                groups.filter(d => !d.endDate)
+                    .append("circle")
+                    .attr("class", "event event-point")
+                    .attr("cx", d => x(d.dateValue!))
+                    .attr("cy", d => {
+                        const baseY = categoryScale(d.type)!;
+                        const monthOffset = ((d.date.month - 6.5) / 12) * 50;
+                        return baseY + monthOffset;
+                    })
+                    .attr("r", 5)
+                    .attr("fill", d => colorScale(d.type))
+                    .on("mouseover", eventHandlers.showInfo)
+                    .on("mouseout", eventHandlers.hideInfo);
+
+                return groups;
+            });
+        }
+
+        updateEvents();
 
         let resizeTimeout: number | null = null;
         window.addEventListener('resize', () => {
@@ -565,23 +622,6 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
             zoom, 
             filteredEvents
         );
-
-        function updateEvents() {
-            chartArea.selectAll<SVGCircleElement, EventType>(".event")
-                .data(filteredEvents)
-                .join("circle")
-                .attr("class", "event")
-                .attr("cx", d => x(d.dateValue!))
-                .attr("cy", d => {
-                    const baseY = categoryScale(d.type)!;
-                    const monthOffset = ((d.date.month - 6.5) / 12) * 50;
-                    return baseY + monthOffset;
-                })
-                .attr("r", 5)
-                .attr("fill", d => colorScale(d.type))
-                .on("mouseover", eventHandlers.showInfo)
-                .on("mouseout", eventHandlers.hideInfo);
-        }
 
         updateEvents();
 

@@ -594,24 +594,3 @@ d3.json<{ category: string; color: string; file: string }[]>('data/categories.js
 function updateVisualization() {
     location.reload();
 }
-
-const style = document.createElement('style');
-style.textContent = `
-    #timeline {
-        width: 100%;
-        height: 100%;
-        position: relative;
-    }
-    
-    .info-bubble {
-        max-width: 300px;
-        max-height: 80vh;
-        overflow-y: auto;
-        background: white;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 10px;
-        pointer-events: auto !important; /* Force pointer events to be enabled */
-    }
-`;
-document.head.appendChild(style);

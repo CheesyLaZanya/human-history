@@ -27,6 +27,71 @@
   },
   {
     "date": {
+      "year": 1985,
+      "month": 9,
+      "day": 13
+    },
+    "name": "Super Mario Bros. JP Release",
+    "description": "A side-scrolling platform game developed and published by Nintendo for the Nintendo Entertainment System (NES)",
+    "type": "media",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Super_Mario_Bros."
+    ]
+  },
+  {
+    "date": {
+      "year": 1987,
+      "month": 8,
+      "day": 22
+    },
+    "name": "The Legend of Zelda NA release",
+    "description": "An action-adventure game developed and published by Nintendo for the Nintendo Entertainment System (NES)",
+    "type": "media",
+    "sources": [
+      "https://en.wikipedia.org/wiki/The_Legend_of_Zelda_(video_game)"
+    ]
+  },
+  {
+    "date": {
+      "year": 1993,
+      "month": 12,
+      "day": 10
+    },
+    "name": "Doom",
+    "description": "A first-person shooter game developed by id Software for MS-DOS",
+    "type": "media",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Doom_(1993_video_game)"
+    ]
+  },
+  {
+    "date": {
+      "year": 1998,
+      "month": 9,
+      "day": 28
+    },
+    "name": "Pokémon Red and Blue",
+    "description": "Role-playing video games developed by Game Freak and published by Nintendo for the Game Boy",
+    "type": "media",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Pok%C3%A9mon_Red_and_Blue"
+    ]
+  },
+  {
+    "date": {
+      "year": 1997,
+      "month": 11,
+      "day": 28
+    },
+    "name": "Grand Theft Auto",
+    "description": "An action-adventure game developed by DMA Design and published by BMG Interactive",
+    "type": "media",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Grand_Theft_Auto_(video_game)"
+    ]
+  },
+  {
+    "date": {
       "year": 1997,
       "month": 12,
       "day": 19
@@ -101,6 +166,19 @@
     "type": "media",
     "sources": [
       "https://www.imdb.com/title/tt0499549/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2011,
+      "month": 11,
+      "day": 18
+    },
+    "name": "Minecraft Full Release",
+    "description": "A sandbox video game developed by Mojang Studios",
+    "type": "media",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Minecraft"
     ]
   },
   {

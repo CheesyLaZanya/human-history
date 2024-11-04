@@ -1,28 +1,171 @@
 [
-    {
-        "date": {
-          "year": 2015,
-          "month": 1,
-          "day": 16
-        },
-        "name": "Paddington",
-        "description": "The full theatrical release of Paddington",
-        "type": "media",
-        "sources": [
-          "https://www.imdb.com/title/tt1109624/"
-        ]
+  {
+    "date": {
+      "year": 1929,
+      "month": 1,
+      "day": 1
     },
-    {
-      "date": {
-        "year": 2018,
-        "month": 1,
-        "day": 12
-      },
-      "name": "Paddington 2",
-      "description": "The full theatrical release of Paddington 2",
-      "type": "media",
-      "sources": [
-        "https://www.imdb.com/title/tt4468740/"
-      ]
+    "name": "Steamboat Willie",
+    "description": "Mickey Mouse, piloting a steamboat, delights his passenger, Minnie, by making musical instruments out of the menagerie on deck.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0019422/"
+    ]
+  },
+  {
+    "date": {
+      "year": 1977,
+      "month": 5,
+      "day": 25
+    },
+    "name": "Star Wars: Episode IV - A New Hope",
+    "description": "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth Vader.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0076759/"
+    ]
+  },
+  {
+    "date": {
+      "year": 1997,
+      "month": 12,
+      "day": 19
+    },
+    "name": "Titanic",
+    "description": "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0120338/"
+    ]
+  },
+  {
+    "date": {
+      "year": 1999,
+      "month": 3,
+      "day": 31
+    },
+    "name": "The Matrix",
+    "description": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0133093/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2001,
+      "month": 12,
+      "day": 19
+    },
+    "name": "The Lord of the Rings: The Fellowship of the Ring",
+    "description": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0120737/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2002,
+      "month": 12,
+      "day": 18
+    },
+    "name": "The Lord of the Rings: The Two Towers",
+    "description": "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0167261/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2003,
+      "month": 12,
+      "day": 17
+    },
+    "name": "The Lord of the Rings: The Return of the King",
+    "description": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0167260/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2009,
+      "month": 12,
+      "day": 18
+    },
+    "name": "Avatar",
+    "description": "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0499549/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2012,
+      "month": 12,
+      "day": 14
+    },
+    "name": "The Hobbit: An Unexpected Journey",
+    "description": "A reluctant Hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home, and the gold within it from the dragon Smaug.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt0903624/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2013,
+      "month": 12,
+      "day": 13
+    },
+    "name": "The Hobbit: The Desolation of Smaug",
+    "description": "The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt1170358/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2014,
+      "month": 12,
+      "day": 17
+    },
+    "name": "The Hobbit: The Battle of the Five Armies",
+    "description": "Bilbo and company are forced to engage in a war against an array of combatants and keep the Lonely Mountain from falling into the hands of a rising darkness.",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt2310332/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2015,
+      "month": 1,
+      "day": 16
+    },
+    "name": "Paddington",
+    "description": "The full theatrical release of Paddington",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt1109624/"
+    ]
+  },
+  {
+    "date": {
+      "year": 2018,
+      "month": 1,
+      "day": 12
+    },
+    "name": "Paddington 2",
+    "description": "The full theatrical release of Paddington 2",
+    "type": "media",
+    "sources": [
+      "https://www.imdb.com/title/tt4468740/"
+    ]
   }
 ]

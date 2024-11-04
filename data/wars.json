@@ -1,46 +1,118 @@
 [
-    {
-        "date": {
-          "year": 1939,
-          "month": 9,
-          "day": 1
-        },
-        "endDate": {
-          "year": 1945,
-          "month": 9,
-          "day": 2
-        },
-        "name": "WW2",
-        "description": "The second World War",
-        "type": "wars",
-        "sources": [
-          "https://en.wikipedia.org/wiki/World_War_II"
-        ]
+  {
+    "date": {
+      "year": 1337,
+      "month": 5,
+      "day": 24
     },
-    {
-        "date": {
-          "year": 1945,
-          "month": 8,
-          "day": 6
-        },
-        "name": "First Nuclear Weapon used on Hiroshima",
-        "description": "First atomic bomb used in warfare over Hiroshima, marking the beginning of the nuclear age.",
-        "type": "wars",
-        "sources": [
-          "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki"
-        ]
+    "endDate": {
+      "year": 1453,
+      "month": 10,
+      "day": 19
     },
-    {
-        "date": {
-          "year": 1945,
-          "month": 8,
-          "day": 9
-        },
-        "name": "Second Nuclear Weapon used on Nagasaki",
-        "description": "The second and final atomic bomb used in warfare over Nagasaki",
-        "type": "wars",
-        "sources": [
-          "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki"
-        ]
-    }
+    "name": "Hundred Years' War",
+    "description": "A series of conflicts between the Kingdom of England and the Kingdom of France and their allies",
+    "type": "wars",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Hundred_Years%27_War"
+    ]
+  },
+  {
+    "date": {
+      "year": 1812,
+      "month": 6,
+      "day": 18
+    },
+    "endDate": {
+      "year": 1815,
+      "month": 2,
+      "day": 17
+    },
+    "name": "War of 1812",
+    "description": "A conflict between the United States and the United Kingdom, its North American colonies, and its Native American allies",
+    "type": "wars",
+    "sources": [
+      "https://en.wikipedia.org/wiki/War_of_1812"
+    ]
+  },
+  {
+    "date": {
+      "year": 1914,
+      "month": 7,
+      "day": 28
+    },
+    "endDate": {
+      "year": 1918,
+      "month": 11,
+      "day": 11
+    },
+    "name": "World War I",
+    "description": "A global conflict between the Allies and the Central Powers, also known as the Great War",
+    "type": "wars",
+    "sources": [
+      "https://en.wikipedia.org/wiki/World_War_I"
+    ]
+  },
+  {
+    "date": {
+      "year": 1955,
+      "month": 11,
+      "day": 1
+    },
+    "endDate": {
+      "year": 1975,
+      "month": 4,
+      "day": 30
+    },
+    "name": "Vietnam War",
+    "description": "A conflict in Vietnam, Laos, and Cambodia between North Vietnam and its allies against South Vietnam and its allies",
+    "type": "wars",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Vietnam_War"
+    ]
+  },
+  {
+    "date": {
+      "year": 1939,
+      "month": 9,
+      "day": 1
+    },
+    "endDate": {
+      "year": 1945,
+      "month": 9,
+      "day": 2
+    },
+    "name": "WW2",
+    "description": "The second World War",
+    "type": "wars",
+    "sources": [
+      "https://en.wikipedia.org/wiki/World_War_II"
+    ]
+  },
+  {
+    "date": {
+      "year": 1945,
+      "month": 8,
+      "day": 6
+    },
+    "name": "First Nuclear Weapon used on Hiroshima",
+    "description": "First atomic bomb used in warfare over Hiroshima, marking the beginning of the nuclear age.",
+    "type": "wars",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki"
+    ]
+  },
+  {
+    "date": {
+      "year": 1945,
+      "month": 8,
+      "day": 9
+    },
+    "name": "Second Nuclear Weapon used on Nagasaki",
+    "description": "The second and final atomic bomb used in warfare over Nagasaki",
+    "type": "wars",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki"
+    ]
+  }
 ]

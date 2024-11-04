@@ -18,5 +18,10 @@
       "category": "wars",
       "color": "#ff0000",
       "file": "data/wars.json"
+    },
+    {
+      "category": "media",
+      "color": "#9370db",
+      "file": "data/media.json"
     }
   ]

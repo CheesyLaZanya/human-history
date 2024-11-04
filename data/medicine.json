@@ -9,7 +9,7 @@
       "description": "Alexander Fleming discovers penicillin.",
       "type": "medicine",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Penicillin"
       ]
     },
     {
@@ -22,7 +22,22 @@
       "description": "Scientists first discover plastic particles in ocean waters, marking the beginning of microplastic awareness.",
       "type": "medicine",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://pubmed.ncbi.nlm.nih.gov/5061243/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7268196/#gch2201900081-bib-0019"
+      ]
+    },
+    {
+      "date": {
+          "year": 2004,
+          "month": 5,
+          "day": 7
+      },
+      "name": "Microplastic Term Coined",
+      "description": "First recorded usage of the term microplastic in scientific literature.",
+      "type": "medicine",
+      "sources": [
+          "https://pubmed.ncbi.nlm.nih.gov/15131299/",
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC7268196/#gch2201900081-bib-0019"
       ]
     }
   ]

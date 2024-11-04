@@ -9,12 +9,12 @@
       "description": "Development of agriculture and the beginning of settled human communities.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/History_of_agriculture"
       ]
     },
     {
       "date": {
-        "year": -3200,
+        "year": -3300,
         "month": 1,
         "day": 1
       },
@@ -22,20 +22,21 @@
       "description": "Development of the first writing systems in Mesopotamia, marking the beginning of recorded history.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/History_of_writing"
       ]
     },
     {
       "date": {
-        "year": 1364,
+        "year": 1132,
         "month": 1,
         "day": 1
       },
-      "name": "First Firearms",
-      "description": "First recorded use of a hand cannon in Europe, marking the beginning of firearms technology.",
+      "name": "First 'Firearms' used in Warfare",
+      "description": "Early firearms or 'fire lances' were first recorded as used in Warfare in the Seige of De'an, marking the beginning of firearms technology.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Fire_lance",
+        "https://en.wikipedia.org/wiki/History_of_the_firearm"
       ]
     },
     {
@@ -48,20 +49,20 @@
       "description": "Johannes Gutenberg invents the movable-type printing press.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Printing_press"
       ]
     },
     {
       "date": {
         "year": 1769,
         "month": 1,
-        "day": 1
+        "day": 5
       },
       "name": "Steam Engine",
-      "description": "James Watt patents the steam engine, kickstarting the Industrial Revolution.",
+      "description": "James Watt patents the steam engine, after improving on prior works, kickstarting the Industrial Revolution.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Steam_engine"
       ]
     },
     {
@@ -74,7 +75,7 @@
       "description": "Alexander Graham Bell patents the telephone.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Alexander_Graham_Bell"
       ]
     },
     {
@@ -83,25 +84,25 @@
         "month": 1,
         "day": 1
       },
-      "name": "Plastic Invention",
+      "name": "Invetion of the first Plastic 'Bakelite'",
       "description": "Leo Baekeland invents Bakelite, the first fully synthetic plastic.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Bakelite"
       ]
     },
     {
-      "date": {
-        "year": 1945,
-        "month": 8,
-        "day": 6
-      },
-      "name": "First Nuclear Weapon",
-      "description": "First atomic bomb used in warfare over Hiroshima, marking the beginning of the nuclear age.",
-      "type": "technology",
-      "sources": [
-        "https://www.wikipedia.org/"
-      ]
+        "date": {
+          "year": 1950,
+          "month": 8,
+          "day": 25
+        },
+        "name": "First Computer Game",
+        "description": "Josef Kates creates Bertie the Brain in Toronto, considered one of the first computer games. It allowed exhibition attendees to play a game of tic-tac-toe against an 'AI'",
+        "type": "technology",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Bertie_the_Brain"
+        ]
     },
     {
       "date": {
@@ -113,7 +114,7 @@
       "description": "A.S. Douglas creates OXO (tic-tac-toe), considered one of the first video games, for the EDSAC computer.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/OXO_(video_game)"
       ]
     },
     {
@@ -126,7 +127,7 @@
       "description": "Tim Berners-Lee invents the World Wide Web.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/History_of_the_World_Wide_Web"
       ]
     },
     {
@@ -139,7 +140,8 @@
       "description": "Launch of Zarya, the first module of the International Space Station.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/International_Space_Station",
+        "https://en.wikipedia.org/wiki/Zarya_(ISS_module)"
       ]
     },
     {
@@ -152,7 +154,7 @@
       "description": "CERN's Large Hadron Collider becomes operational, the world's largest and highest-energy particle collider.",
       "type": "technology",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Large_Hadron_Collider"
       ]
     }
   ]

@@ -9,7 +9,7 @@
       "description": "Approximate time when the genus Homo first appeared.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Human"
       ]
     },
     {
@@ -22,7 +22,7 @@
       "description": "Early humans begin domesticating wolves, leading to the first dogs. This marks one of humanity's first animal partnerships.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Domestication_of_the_dog"
       ]
     },
     {
@@ -35,12 +35,12 @@
       "description": "Cats begin living alongside humans in the Fertile Crescent, likely attracted to rodents in grain storage.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Domestication_of_the_cat"
       ]
     },
     {
       "date": {
-        "year": -2560,
+        "year": -2600,
         "month": 1,
         "day": 1
       },
@@ -48,7 +48,7 @@
       "description": "Completion of the Great Pyramid of Giza, the oldest and largest of the Seven Wonders of the Ancient World.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
       ]
     },
     {
@@ -61,7 +61,7 @@
       "description": "Completion of the Colossus of Rhodes, a 108-foot-tall bronze statue of Helios.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Colossus_of_Rhodes"
       ]
     },
     {
@@ -74,20 +74,20 @@
       "description": "Wright brothers achieve the first sustained, controlled, powered flight.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Wright_brothers"
       ]
     },
     {
       "date": {
         "year": 1954,
         "month": 9,
-        "day": 1
+        "day": 29
       },
       "name": "CERN Founded",
       "description": "The European Organization for Nuclear Research (CERN) is established.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/CERN"
       ]
     },
     {
@@ -97,23 +97,23 @@
         "day": 20
       },
       "name": "Moon Landing",
-      "description": "Neil Armstrong becomes the first human to step on the Moon.",
+      "description": "We succeed in the first Moon landing.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Moon_landing"
       ]
     },
     {
       "date": {
         "year": 2024,
-        "month": 1,
-        "day": 1
+        "month": 11,
+        "day": 9
       },
       "name": "Present Day",
       "description": "Current date as of this timeline's creation.",
       "type": "event",
       "sources": [
-        "https://www.wikipedia.org/"
+        "https://en.wikipedia.org/wiki/Today"
       ]
     }
   ]

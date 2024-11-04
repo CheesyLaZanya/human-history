@@ -1,10 +1,46 @@
 [
     {
-        "date": { "year": 1939, "month": 9, "day": 1 },
-        "endDate": { "year": 1945, "month": 9, "day": 2 },
+        "date": {
+          "year": 1939,
+          "month": 9,
+          "day": 1
+        },
+        "endDate": {
+          "year": 1945,
+          "month": 9,
+          "day": 2
+        },
         "name": "WW2",
         "description": "The second World War",
-        "type": "event",
-        "sources": ["https://www.wikipedia.org/"]
+        "type": "wars",
+        "sources": [
+          "https://en.wikipedia.org/wiki/World_War_II"
+        ]
+    },
+    {
+        "date": {
+          "year": 1945,
+          "month": 8,
+          "day": 6
+        },
+        "name": "First Nuclear Weapon used on Hiroshima",
+        "description": "First atomic bomb used in warfare over Hiroshima, marking the beginning of the nuclear age.",
+        "type": "wars",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki"
+        ]
+    },
+    {
+        "date": {
+          "year": 1945,
+          "month": 8,
+          "day": 9
+        },
+        "name": "Second Nuclear Weapon used on Nagasaki",
+        "description": "The second and final atomic bomb used in warfare over Nagasaki",
+        "type": "wars",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki"
+        ]
     }
 ]

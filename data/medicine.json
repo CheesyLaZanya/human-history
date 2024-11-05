@@ -1,43 +1,240 @@
 [
-    {
-      "date": {
-        "year": 1928,
-        "month": 9,
-        "day": 28
-      },
-      "name": "Discovery of Penicillin",
-      "description": "Alexander Fleming discovers penicillin.",
-      "type": "medicine",
-      "sources": [
-        "https://en.wikipedia.org/wiki/Penicillin"
-      ]
+  {
+    "date": {
+      "year": 1290,
+      "month": 1,
+      "day": 1
     },
-    {
-      "date": {
-        "year": 1972,
-        "month": 1,
-        "day": 1
-      },
-      "name": "First Microplastic Discovery",
-      "description": "Scientists first discover plastic particles in ocean waters, marking the beginning of microplastic awareness.",
-      "type": "medicine",
-      "sources": [
-        "https://pubmed.ncbi.nlm.nih.gov/5061243/",
-        "https://pmc.ncbi.nlm.nih.gov/articles/PMC7268196/#gch2201900081-bib-0019"
-      ]
+    "name": "Invention of Glasses/Spectacles",
+    "description": "The first wearable eyeglasses were invented in Italy.",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Glasses"
+    ]
+  },
+  {
+    "date": {
+      "year": 1592,
+      "month": 1,
+      "day": 1
     },
-    {
-      "date": {
-          "year": 2004,
-          "month": 5,
-          "day": 7
-      },
-      "name": "Microplastic Term Coined",
-      "description": "First recorded usage of the term microplastic in scientific literature.",
-      "type": "medicine",
-      "sources": [
-          "https://pubmed.ncbi.nlm.nih.gov/15131299/",
-          "https://pmc.ncbi.nlm.nih.gov/articles/PMC7268196/#gch2201900081-bib-0019"
-      ]
-    }
-  ]
+    "name": "Suspected Invention of the Thermometer",
+    "description": "Galileo Galilei invented a rudimentary water thermoscope",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Thermometer"
+    ]
+  },
+  {
+    "date": {
+      "year": 1658,
+      "month": 1,
+      "day": 1
+    },
+    "name": "Identification of Germ Theory",
+    "description": "Athanasius Kircher attributes infectious disease to microscopic pathogens, inventing the germ theory of disease.",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Germ_theory_of_disease"
+    ]
+  },
+  {
+    "date": {
+      "year": 1796,
+      "month": 1,
+      "day": 1
+    },
+    "name": "First Vaccine",
+    "description": "Edward Jenner developed the first vaccine for smallpox",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Vaccine"
+    ]
+  },
+  {
+    "date": {
+      "year": 1846,
+      "month": 10,
+      "day": 16
+    },
+    "name": "Invention of Anesthesia",
+    "description": "William T.G. Morton successfully demonstrated the use of ether as an anesthetic",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Anesthesia"
+    ]
+  },
+  {
+    "date": {
+      "year": 1895,
+      "month": 1,
+      "day": 1
+    },
+    "name": "Invention of X-ray",
+    "description": "Wilhelm Conrad Röntgen discovered X-rays",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/X-ray"
+    ]
+  },
+  {
+    "date": {
+      "year": 1895,
+      "month": 9,
+      "day": 4
+    },
+    "name": "First open heart surgery",
+    "description": "Axel Cappelen performed the first surgery on the heart itself",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Open_heart_surgery"
+    ]
+  },
+  {
+    "date": {
+      "year": 1921,
+      "month": 1,
+      "day": 1
+    },
+    "name": "Creation of Insulin",
+    "description": "Frederick Banting and Charles Best discovered insulin for treating diabetes",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Insulin"
+    ]
+  },
+  {
+    "date": {
+      "year": 1928,
+      "month": 9,
+      "day": 28
+    },
+    "name": "Discovery of Penicillin",
+    "description": "Alexander Fleming discovers penicillin.",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Penicillin"
+    ]
+  },
+  {
+    "date": {
+      "year": 1947,
+      "month": 1,
+      "day": 1
+    },
+    "name": "First use of the Defibrillator on a human",
+    "description": "Claude Beck used a Defibrillator successfully on a human",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Defibrillation"
+    ]
+  },
+  {
+    "date": {
+      "year": 1942,
+      "month": 8,
+      "day": 27
+    },
+    "name": "First trial of purpose made Chemotherapy drug",
+    "description": "The first clinical trial of 'mustine' or chlormethine was performed",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Chemotherapy",
+      "https://en.wikipedia.org/wiki/Chlormethine"
+    ]
+  },
+  {
+    "date": {
+      "year": 1954,
+      "month": 1,
+      "day": 1
+    },
+    "name": "First organ transplant",
+    "description": "Joseph Murray performed the first successful kidney transplant between identical twins",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Organ_transplantation"
+    ]
+  },
+  {
+    "date": {
+      "year": 1971,
+      "month": 9,
+      "day": 1
+    },
+    "name": "Invention of MRI",
+    "description": "Paul C. Lauterbur developed magnetic resonance imaging (MRI)",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Magnetic_resonance_imaging"
+    ]
+  },
+  {
+    "date": {
+      "year": 1972,
+      "month": 1,
+      "day": 1
+    },
+    "name": "First Microplastic Discovery",
+    "description": "Scientists first discover plastic particles in ocean waters, marking the beginning of microplastic awareness.",
+    "type": "medicine",
+    "sources": [
+      "https://pubmed.ncbi.nlm.nih.gov/5061243/",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC7268196/#gch2201900081-bib-0019"
+    ]
+  },
+  {
+    "date": {
+      "year": 2004,
+      "month": 5,
+      "day": 7
+    },
+    "name": "Microplastic Term Coined",
+    "description": "First recorded usage of the term microplastic in scientific literature.",
+    "type": "medicine",
+    "sources": [
+      "https://pubmed.ncbi.nlm.nih.gov/15131299/",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC7268196/#gch2201900081-bib-0019"
+    ]
+  },
+  {
+    "date": {
+      "year": 2012,
+      "month": 1,
+      "day": 1
+    },
+    "name": "Discovery that CRISPR can be used for editing genomes",
+    "description": "Jennifer Doudna and Emmanuelle Charpentier identified CRISPR gene editing potential",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/CRISPR_gene_editing",
+      "https://en.wikipedia.org/wiki/Jennifer_Doudna"
+    ]
+  },
+  {
+    "date": {
+      "year": 2019,
+      "month": 12,
+      "day": 1
+    },
+    "name": "First known case of Covid-19",
+    "description": "The first known case of COVID-19 was identified in Wuhan, China",
+    "type": "medicine",
+    "sources": [
+      "https://en.wikipedia.org/wiki/COVID-19_pandemic"
+    ]
+  },
+  {
+    "date": {
+      "year": 2024,
+      "month": 3,
+      "day": 16
+    },
+    "name": "First human/animal transplant",
+    "description": "Christiaan Barnard performed the first human-to-human heart transplant",
+    "type": "medicine",
+    "sources": [
+      "https://hms.harvard.edu/news/first-genetically-edited-pig-kidney-transplanted-human"
+    ]
+  }
+]

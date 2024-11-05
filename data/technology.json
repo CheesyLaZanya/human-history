@@ -132,6 +132,19 @@
     },
     {
       "date": {
+        "year": 1989,
+        "month": 6,
+        "day": 9
+      },
+      "name": "FDM 3D Printing Patented",
+      "description": "S. Scott Crump designs and patents FDM for 3D printing.",
+      "type": "technology",
+      "sources": [
+        "https://en.wikipedia.org/wiki/S._Scott_Crump"
+      ]
+    },
+    {
+      "date": {
         "year": 1998,
         "month": 11,
         "day": 20

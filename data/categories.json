@@ -23,5 +23,10 @@
       "category": "media",
       "color": "#9370db",
       "file": "data/media.json"
+    },
+    {
+      "category": "historical figures",
+      "color": "#b2ff33",
+      "file": "data/historical_figures.json"
     }
   ]

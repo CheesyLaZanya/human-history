@@ -114,5 +114,18 @@
     "sources": [
       "https://en.wikipedia.org/wiki/Atomic_bombings_of_Hiroshima_and_Nagasaki"
     ]
+  },
+  {
+    "date": {
+      "year": 2022,
+      "month": 2,
+      "day": 24
+    },
+    "name": "Russian invasion of Ukraine",
+    "description": "The Russian invasion of Ukraine",
+    "type": "wars",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine"
+    ]
   }
 ]

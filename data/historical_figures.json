@@ -1,0 +1,218 @@
+[
+    {
+        "date": {
+        "year": -563,
+        "month": 1,
+        "day": 1
+        },
+        "endDate": {
+        "year": -483,
+        "month": 1,
+        "day": 1
+        },
+        "name": "The Buddha (Siddhartha Gautama)",
+        "description": "The life of The Buddha (earliest dates*)",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/The_Buddha"
+        ]
+    },
+    {
+        "date": {
+        "year": -551,
+        "month": 1,
+        "day": 1
+        },
+        "endDate": {
+        "year": -479,
+        "month": 1,
+        "day": 1
+        },
+        "name": "Confucius (Kong Qiu)",
+        "description": "The life of Confucius",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Confucius"
+        ]
+    },
+    {
+        "date": {
+        "year": -356,
+        "month": 7,
+        "day": 20
+        },
+        "endDate": {
+        "year": -323,
+        "month": 6,
+        "day": 10
+        },
+        "name": "Alexander the Great (Alexander III of Macedon)",
+        "description": "The life of Alexander the Great",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Alexander_the_Great"
+        ]
+    },
+    {
+        "date": {
+        "year": -100,
+        "month": 7,
+        "day": 12
+        },
+        "endDate": {
+        "year": -44,
+        "month": 3,
+        "day": 15
+        },
+        "name": "Julius Caesar",
+        "description": "The life of Julius Caesar",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Julius_Caesar"
+        ]
+    },
+    {
+        "date": {
+        "year": -70,
+        "month": 1,
+        "day": 1
+        },
+        "endDate": {
+        "year": -30,
+        "month": 8,
+        "day": 10
+        },
+        "name": "Cleopatra (Cleopatra VII Thea Philopator)",
+        "description": "The life of Cleopatra",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Cleopatra"
+        ]
+    },
+    {
+        "date": {
+        "year": 1162,
+        "month": 1,
+        "day": 1
+        },
+        "endDate": {
+        "year": 1227,
+        "month": 8,
+        "day": 1
+        },
+        "name": "Genghis Khan",
+        "description": "The life of Genghis Khan",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Genghis_Khan"
+        ]
+    },
+    {
+        "date": {
+        "year": 1451,
+        "month": 8,
+        "day": 25
+        },
+        "endDate": {
+        "year": 1506,
+        "month": 5,
+        "day": 20
+        },
+        "name": "Christopher Columbus",
+        "description": "The life of Christopher Columbus",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Christopher_Columbus"
+        ]
+    },
+    {
+        "date": {
+        "year": 1452,
+        "month": 4,
+        "day": 15
+        },
+        "endDate": {
+        "year": 1519,
+        "month": 5,
+        "day": 2
+        },
+        "name": "Leonardo da Vinci",
+        "description": "The life of Leonardo da Vinci",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Leonardo_da_Vinci"
+        ]
+    },
+    {
+        "date": {
+        "year": 1564,
+        "month": 4,
+        "day": 23
+        },
+        "endDate": {
+        "year": 1616,
+        "month": 4,
+        "day": 23
+        },
+        "name": "William Shakespeare",
+        "description": "The life of William Shakespeare",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/William_Shakespeare"
+        ]
+    },
+    {
+        "date": {
+        "year": 1642,
+        "month": 12,
+        "day": 25
+        },
+        "endDate": {
+        "year": 1726,
+        "month": 3,
+        "day": 20
+        },
+        "name": "Isaac Newton",
+        "description": "The life of Isaac Newton",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Isaac_Newton"
+        ]
+    },
+    {
+        "date": {
+        "year": 1770,
+        "month": 12,
+        "day": 17
+        },
+        "endDate": {
+        "year": 1827,
+        "month": 3,
+        "day": 26
+        },
+        "name": "Ludwig van Beethoven",
+        "description": "The life of Ludwig van Beethoven",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven"
+        ]
+    },
+    {
+        "date": {
+        "year": 1879,
+        "month": 3,
+        "day": 14
+        },
+        "endDate": {
+        "year": 1955,
+        "month": 4,
+        "day": 18
+        },
+        "name": "Albert Einstein",
+        "description": "The life of Albert Einstein",
+        "type": "historical figure",
+        "sources": [
+        "https://en.wikipedia.org/wiki/Albert_Einstein"
+        ]
+    }
+]
